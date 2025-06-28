@@ -1,0 +1,67 @@
+{
+  "name": "@bpmn-io/draggle",
+  "type": "module",
+  "version": "4.1.1",
+  "description": "Drag and drop so simple it hurts",
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/draggle.js",
+  "module": "./dist/draggle.js",
+  "exports": {
+    ".": {
+      "import": "./dist/draggle.js",
+      "require": "./dist/draggle.umd.cjs"
+    },
+    "./package.json": "./package.json",
+    "./dist/draggle.css": "./dist/draggle.css"
+  },
+  "sideEffects": [
+    "*.css"
+  ],
+  "scripts": {
+    "prepare": "run-s build",
+    "all": "run-s build lint test",
+    "build": "run-s build:js build:css",
+    "start": "vite",
+    "build:js": "vite build",
+    "build:css": "copyfiles -f draggle.css dist",
+    "lint": "eslint",
+    "dev": "vitest",
+    "test": "vitest run"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bpmn-io/draggle.git"
+  },
+  "author": {
+    "name": "Niklas Kiefer",
+    "url": "https://github.com/pinussilvestrus"
+  },
+  "contributors": [
+    {
+      "name": "bpmn.io contributors",
+      "url": "https://github.com/bpmn-io"
+    }
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/bpmn-io/draggle/issues"
+  },
+  "homepage": "https://github.com/bpmn-io/draggle",
+  "dependencies": {
+    "contra": "^1.9.4"
+  },
+  "devDependencies": {
+    "@vitest/browser": "^0.34.6",
+    "@vitest/ui": "^0.34.6",
+    "copyfiles": "^2.4.1",
+    "eslint": "^8.54.0",
+    "eslint-plugin-bpmn-io": "^1.0.0",
+    "jsdom": "^23.0.0",
+    "npm-run-all": "^4.1.5",
+    "vite": "^5.0.3",
+    "vitest": "^0.34.6",
+    "webdriverio": "^8.24.3"
+  }
+}

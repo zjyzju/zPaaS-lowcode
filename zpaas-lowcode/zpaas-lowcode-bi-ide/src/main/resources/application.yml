@@ -1,0 +1,93 @@
+server:
+    port: 18043
+    address: localhost
+    ssl:
+        protocol: TLS
+        key-store: classpath:lowcode.keystore
+        #key-store-password: lowcode@159283Jaf&
+        key-store-password: ENC(gVMptBep6lVzcPkedEd1YckcmOrwbG34kQkP8oIPkcxTQhsLi1EKhMhLNa/24v6Mod2py1GIP83K85PGiC61Sg==)
+        key-store-type: JKS
+    servlet: 
+        context-path: /lowcode
+        session: 
+            timeout: 7200
+              
+spring: 
+    application: 
+        name: lowcode-project
+      
+    datasource:
+        lcdp-engine:
+            username: linux
+            password: ENC(DjL9IplOMrYzKIpvOTNTpCAjZzOm7CAaftYOeT7sPD6wiaumT0Aqx8/PKJckYYb5)
+            jdbcUrl: jdbc:mysql://[fd15:4ba5:5a2b:1009::10]:3306/zpaas_lowcode?serverTimezone=UTC&useUnicode=true&characterEncoding=utf-8
+            driver-class-name: com.mysql.cj.jdbc.Driver
+        camunda:
+            driver-class-name: com.mysql.cj.jdbc.Driver
+            jdbcUrl: jdbc:mysql://[fd15:4ba5:5a2b:1009::10]:3306/camunda?serverTimezone=UTC&useUnicode=true&characterEncoding=utf-8
+            username: linux
+            password: ENC(DjL9IplOMrYzKIpvOTNTpCAjZzOm7CAaftYOeT7sPD6wiaumT0Aqx8/PKJckYYb5)
+        
+    elasticsearch:
+        rest:
+            uris: http://192.168.203.128:9200
+            
+    servlet:
+        multipart:
+            enabled: true
+            max-file-size: 3MB
+            max-request-size: 20MB
+
+#jasypt加密,将密钥作为环境变量参数在执行应用的启动命令时传入
+jasypt:
+    encryptor:
+        password: lowcode@ajfiwUU&
+        algorithm: PBEWITHHMACSHA512ANDAES_256
+
+caffeine:
+    name: caffeineCache
+    spec: maximumSize=10000
+
+camunda:
+    bpm:
+        admin-user:
+            id: demo
+            #password: demo
+            password: ENC(uS+HkhZqPf4QWydXF7eQYcbPvmz7FV+HgkfQTlmN5UNbaBMb11Mt3DNwQjwP2QSR)
+            firstName: Demo
+        generic-properties:
+            properties:
+                historyTimeToLive: P365D
+    filter:
+        create: All tasks
+
+       
+logging:
+    #config: classpath:logback.xml
+    level:
+        root : info
+        cn.zpaas.lowcode : DEBUG
+        org.springframework.jdbc: ERROR
+        org.apache.kafka.clients: WARN
+    pattern:
+        console: "%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(%-40.40logger{39}){cyan}[%line] %clr(:){faint} %.-1024m%n${LOG_EXCEPTION_CONVERSION_WORD:%wEx}"
+        #file: "%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(%-40.40logger{39}){cyan}[%line] %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:%wEx}"
+    #path: "./logs/"
+    #file: "./logs/lcdp.log"
+    #file.max-size: 10MB
+
+snowFlake:
+    dataCenterId: 2
+    machineId: 2
+
+init:
+    param:
+        systemId: 
+        tenantId: 
+        servicePath: service
+        batchServicePath: batchService
+        fileUploadServicePath: fileUploadService
+        fileDownloadServicePath: fileDownloadService
+        tempFilePath: ./tempFile/
+        loginInfoKey: loginInfo
+        

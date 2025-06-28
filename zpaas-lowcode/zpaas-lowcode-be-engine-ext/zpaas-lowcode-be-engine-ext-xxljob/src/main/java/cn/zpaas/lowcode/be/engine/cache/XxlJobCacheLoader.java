@@ -1,0 +1,28 @@
+package cn.zpaas.lowcode.be.engine.cache;
+
+import org.springframework.stereotype.Component;
+
+import cn.zpaas.lowcode.be.engine.ability.XxlJobTaskAbility;
+import cn.zpaas.lowcode.be.engine.service.EngineInitService;
+
+/**
+ * XxlJob能力缓存加载类
+ *
+ * @author zjy
+ * createTime 2025年04月13日-09:26:42
+ */
+@Component
+public class XxlJobCacheLoader implements AbilityCacheLoader {
+
+    @Override
+    public void loadCache(String systemId, String tenantId, EngineInitService initService) {
+        XxlJobTaskAbility.init(systemId, tenantId, initService);
+		
+    }
+
+    @Override
+    public void reloadCache(String systemId, String tenantId, EngineInitService initService) {
+        XxlJobTaskAbility.reloadCache(systemId, tenantId, initService);
+    }
+    
+}

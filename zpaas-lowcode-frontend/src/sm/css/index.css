@@ -1,0 +1,64 @@
+body{
+    background-image: url(../img/main.jpg);
+    background-repeat: no-repeat;
+    background-size:100%;
+    background-position: 0px 0px;
+}
+#login-box{
+    background-color: #3c33338c;
+    border-radius: 13px;
+    text-align: center;
+    margin: 0px auto;
+    margin-top: 180px;
+    width: 450px;
+    height: 400px;
+}
+
+#login-box h1{
+    padding-top: 20px;
+    color: #ffffff;
+    font-size: 26px
+}
+
+#login-box .input-box{
+    margin-top: 30px;
+}
+#login-box input{
+    border: none;
+    background: none;
+    border-bottom: #FFFFFF 2px solid;
+    padding: 5px 10px;
+    outline: none;
+    color: #FFFFFF;
+}
+#login-box .el-form-item__label {
+	margin-top: 25px;
+	color:#FFFFFF;
+}
+
+#login-box .el-input__wrapper{
+  border: none;
+  background: none;
+  box-shadow: none;
+  border-radius: 0;
+}
+
+#login-box button{
+    line-height:30px;
+    margin-top: 30px;
+    width: 130px;
+    height: 40px;
+    border-radius:3px ;
+    outline: none;
+    border: none;
+    font-size: 16px;
+    background-image: linear-gradient(120deg, #a6c0fe 0%, #f68084 100%);
+    color: #FFFFFF;
+}
+
+#login-box button:hover{
+    background-image: linear-gradient(to top, #30cfd0 0%, #330867 100%);
+}
+#login-box .input-box i{
+    color: #FFFFFF;
+}
