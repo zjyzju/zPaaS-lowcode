@@ -457,7 +457,7 @@ public class FrontController {
 		
 		//进行认证处理
 		try {
-			AuthResult authResult = this.authenticate(businessSystem.getBusinessSystemAuth(), request, reqUrl);
+			AuthResult authResult = this.authenticate(businessSystem.getBusinessSystemAuth(), request, reqUrl, businessSystem);
 			if(authResult == null) {
 				result = new Result<>();
 				logger.error("T[{}] Authenticate failed!", businessSystem.getTenantId());
@@ -554,7 +554,7 @@ public class FrontController {
 		}
 		
 		//进行认证处理
-		AuthResult authResult = this.authenticate(businessSystem.getBusinessSystemAuth(), request, reqUrl);
+		AuthResult authResult = this.authenticate(businessSystem.getBusinessSystemAuth(), request, reqUrl, businessSystem);
 		if(authResult == null || !AuthResult.AUTH_RESULT_SUCCEED.equals(authResult.getAuthResult())) {
 			logger.error("T[{}] Authenticate failed!", businessSystem.getTenantId());
 			throw new EngineException(ResultStatus.NOT_LOGON_ERROR, "Authenticate failed!");
@@ -682,7 +682,7 @@ public class FrontController {
 		
 		//进行认证处理
 		try {
-			AuthResult authResult = this.authenticate(businessSystem.getBusinessSystemAuth(), request, reqUrl);
+			AuthResult authResult = this.authenticate(businessSystem.getBusinessSystemAuth(), request, reqUrl, businessSystem);
 			if(authResult == null) {
 				result = new Result<>();
 				logger.error("T[{}] Authenticate failed!", businessSystem.getTenantId());
@@ -782,7 +782,7 @@ public class FrontController {
 		}
 		
 		//进行认证处理
-		AuthResult authResult = this.authenticate(businessSystem.getBusinessSystemAuth(), request, reqUrl);
+		AuthResult authResult = this.authenticate(businessSystem.getBusinessSystemAuth(), request, reqUrl, businessSystem);
 		if(authResult == null || !AuthResult.AUTH_RESULT_SUCCEED.equals(authResult.getAuthResult())) {
 			logger.error("T[{}] Authenticate failed!", businessSystem.getTenantId());
 			throw new EngineException(ResultStatus.NOT_LOGON_ERROR, "Authenticate failed!");
@@ -907,8 +907,8 @@ public class FrontController {
 	 * @return
 	 * @throws EngineException
 	 */
-	private AuthResult authenticate(BusinessSystemAuth auth, HttpServletRequest request) throws EngineException{
-		return this.authenticate(auth, request, null);
+	private AuthResult authenticate(BusinessSystemAuth auth, HttpServletRequest request, BusinessSystem businessSystem) throws EngineException{
+		return this.authenticate(auth, request, null, businessSystem);
 	}
 
 	/**
@@ -923,7 +923,7 @@ public class FrontController {
 		if(businessSystem == null) {
 			throw new EngineException(ResultStatus.BAD_REQUEST, "invalid systemId!");
 		}
-		return this.authenticate(businessSystem.getBusinessSystemAuth(), request, reqUrl);
+		return this.authenticate(businessSystem.getBusinessSystemAuth(), request, reqUrl, businessSystem);
 	}
 	
 	/**
@@ -933,13 +933,13 @@ public class FrontController {
 	 * @return
 	 * @throws EngineException
 	 */
-	private AuthResult authenticate(BusinessSystemAuth auth, HttpServletRequest request, String reqUrl) throws EngineException{
+	private AuthResult authenticate(BusinessSystemAuth auth, HttpServletRequest request, String reqUrl, BusinessSystem businessSystem) throws EngineException{
 		AuthResult result = new AuthResult();
 		result.setAuthResult(AuthResult.AUTH_RESULT_SUCCEED);
 		//为空时默认为无权限控制模式，此时不需要做任何处理
 		if(auth == null || AuthTypes.AUTH_TYPE_NONE.equals(auth.getAuthType()) || StringUtils.isBlank(auth.getAuthType())) {
 			if(logger.isDebugEnabled()) {
-				logger.debug("T[{}] authenticate: no auth or auth type is none. continue...", auth.getTenantId());
+				logger.debug("T[{}] authenticate: no auth or auth type is none. continue...", businessSystem.getTenantId());
 			}
 			SecurityContextHolder.setAuthEnabled(false);//设置认证模式激活状态为未激活
 			return result;
@@ -1084,7 +1084,7 @@ public class FrontController {
 		
 		//进行认证处理
 		try {
-			AuthResult authResult = this.authenticate(businessSystem.getBusinessSystemAuth(), request);
+			AuthResult authResult = this.authenticate(businessSystem.getBusinessSystemAuth(), request, businessSystem);
 			if(authResult == null) {
 				logger.error("T[{}] Authenticate failed!", businessSystem.getTenantId());
 				batchResult.setStatus(ResultStatus.NOT_LOGON_ERROR);
