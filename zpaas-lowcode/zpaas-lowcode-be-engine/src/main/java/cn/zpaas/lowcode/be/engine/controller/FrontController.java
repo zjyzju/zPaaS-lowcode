@@ -136,7 +136,6 @@ public class FrontController {
 			logger.error("systemId is null!");
 			return;
 		}
-		this.authenticate(systemId, request, "/cache/reload/"+systemId);
 		
 		//加载指定业务系统的信息
 		BusinessSystem businessSystem = initService.getBusinessSystemById(systemId);
@@ -184,7 +183,8 @@ public class FrontController {
 			exposedServiceMap.put(systemId, map);
 			exposedServiceIdMap.put(systemId, idMap);
 		}
-		
+		//将缓存加载的鉴权逻辑后移，防止因鉴权信息配置错误而造成无法刷新缓存的死循环
+		this.authenticate(systemId, request, "/cache/reload/"+systemId);
 		
 		//进行服务执行代理的初始化
 		ServiceProxy.reloadCache(systemId, null, initService);
