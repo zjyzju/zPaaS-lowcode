@@ -98,7 +98,7 @@ export default {
             axiosClient.get(url).then((response) => {
                 var data = response.data; 
                 if(data != null && data.status == "200" && data.data != null) {
-                    this.businessDomains = data;
+                    this.businessDomains = data.data;
                 }
             });
         },
