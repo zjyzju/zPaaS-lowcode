@@ -1308,15 +1308,7 @@ public class ORMRepositoryAbility {
 			querySql = querySql.substring(0, querySql.length()-7);
 		}
 
-		//处理排序逻辑
-		if(!StringUtils.isBlank(JsonUtils.getString(queryOptions, QUERY_OPTION_ORDER_BY))) {//QueryOption设置了排序选择
-			querySql = querySql + EMPTY_SPACE_MARK + JsonUtils.getString(queryOptions, QUERY_OPTION_ORDER_BY);
-		}else if(pageFlag && PageAbility.getPageParam() != null && !StringUtils.isBlank(PageAbility.getPageParam().getSortName())) {//分页中设置了排序字段
-			querySql = querySql + ORDER_BY_MARK + PageAbility.getPageParam().getSortName();
-			if(!StringUtils.isBlank(PageAbility.getPageParam().getSortOrder())) {
-				querySql = querySql + EMPTY_SPACE_MARK + PageAbility.getPageParam().getSortOrder();
-			}
-		}
+		
 		//获取对应的JdbcTemplate
 		JdbcTemplate jdbcTemplate = DBSchemaProxy.getJdbcTemplate(systemId, dbSchemaId);
 		
@@ -1350,6 +1342,17 @@ public class ORMRepositoryAbility {
 				});
 				pageParam.setTotal(total);
 			}
+
+			//处理排序逻辑，查询总数时不增加排序逻辑
+			if(!StringUtils.isBlank(JsonUtils.getString(queryOptions, QUERY_OPTION_ORDER_BY))) {//QueryOption设置了排序选择，优先使用
+				querySql = querySql + EMPTY_SPACE_MARK + JsonUtils.getString(queryOptions, QUERY_OPTION_ORDER_BY);
+			}else if(!StringUtils.isBlank(PageAbility.getPageParam().getSortName())) {//分页中设置了排序字段
+				querySql = querySql + ORDER_BY_MARK + PageAbility.getPageParam().getSortName();
+				if(!StringUtils.isBlank(PageAbility.getPageParam().getSortOrder())) {
+					querySql = querySql + EMPTY_SPACE_MARK + PageAbility.getPageParam().getSortOrder();
+				}
+			}
+
 			//当每页数据小于等于0时，不进行分页处理
 			if(PageAbility.getPageParam().getPageRows() >0) {
 				//处理分页数据
@@ -1364,6 +1367,11 @@ public class ORMRepositoryAbility {
 				querySql = querySql + PAGED_QUERY_EXPR;
 				valuesList.add(start);
 				valuesList.add(pageRows);
+			}
+		}else {//不需要分页
+			//处理排序逻辑
+			if(!StringUtils.isBlank(JsonUtils.getString(queryOptions, QUERY_OPTION_ORDER_BY))) {//QueryOption设置了排序选择，优先使用
+				querySql = querySql + EMPTY_SPACE_MARK + JsonUtils.getString(queryOptions, QUERY_OPTION_ORDER_BY);
 			}
 		}
 
