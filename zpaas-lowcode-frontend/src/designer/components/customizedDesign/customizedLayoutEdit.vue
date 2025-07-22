@@ -442,7 +442,7 @@ export default {
         }
     },
     mounted() {
-        axiosClient.post("/lcdp-proxy/lowcode/platform/be/api/dict/getDictLabelValues", ['LAYOUT_COMPONENT','DISPLAY_POSITION_TYPE','DISPLAY_DIRECTION_TYPE','ANCHOR_NUMBER','PUB_YES_OR_NO','SUPPORT_SELECT_MODE','TABLE_DATA_SOURCE_TYPE']).then((response) => {
+        axiosClient.post("/lcdp-proxy/lowcode/platform/be/api/dict/getDictLabelValues", ['LAYOUT_COMPONENT','DISPLAY_POSITION_TYPE','SPLIT_NUMBER','DISPLAY_DIRECTION_TYPE','ANCHOR_NUMBER','PUB_YES_OR_NO','SUPPORT_SELECT_MODE','TABLE_DATA_SOURCE_TYPE']).then((response) => {
             var data = response.data; 
             if(data != null && data.status == "200" && data.data != null) {
                 this.layoutComponents = data.data['LAYOUT_COMPONENT'];
