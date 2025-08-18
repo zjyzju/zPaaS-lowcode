@@ -685,7 +685,16 @@ public class DataSetService {
         int counter = -1;
         for(DataSetDetail detail : loadReportDataReq.getDataSetDetails()) {
             counter++;
-            if(DataSetDetail.DETAIL_TYPE_METRICS.equals(detail.getDetailType())) {//指标
+
+            JsonObject displayCfgJSON = null;//displayCfg信息
+            if(!JsonUtils.isEmpty(loadReportDataReq.getDisplayCfgs()) && loadReportDataReq.getDisplayCfgs().get(counter) != null) {
+                displayCfgJSON = loadReportDataReq.getDisplayCfgs().get(counter).getAsJsonObject();
+            }
+            String isDimension = null;//是否维度
+            if(displayCfgJSON != null) {
+                isDimension = JsonUtils.getString(displayCfgJSON, IS_DIMENSION_KEY);
+            }
+            if(DataSetDetail.DETAIL_TYPE_METRICS.equals(detail.getDetailType()) && !YesOrNo.YES.equals(isDimension)) {//指标且未当维度使用
                 DataModelMetrics metric = metricMap.get(detail.getDetailContentId());
                 if(!StringUtils.isBlank(metric.getMetricFormula())) {
                     //如果配置时有设置"{tableAlias}"的占位符，需要用表的别名替换
@@ -696,41 +705,60 @@ public class DataSetService {
                         selectPartBuilder2.append(SPACE_STRING).append(detail.getDetailContentAlias()).append(COMMA).append(SPACE_STRING);
                     }
                 }
-            }else if(DataSetDetail.DETAIL_TYPE_TAG.equals(detail.getDetailType())) {//标签，不能用于这部分
-                //detail.setContent(this.dataModelTagSV.byId(detail.getDetailContentId()));
-            }else if(DataSetDetail.DETAIL_TYPE_FILTER.equals(detail.getDetailType())) {//过滤器， 不能用于这部分
-                //detail.setContent(this.dataModelFilterSV.byId(detail.getDetailContentId()));
-            }else {//其他
-                JsonObject displayCfgJSON = null;//displayCfg信息
-                if(!JsonUtils.isEmpty(loadReportDataReq.getDisplayCfgs()) && loadReportDataReq.getDisplayCfgs().get(counter) != null) {
-                    displayCfgJSON = loadReportDataReq.getDisplayCfgs().get(counter).getAsJsonObject();
-                }
-                String isDimension = null;//是否维度
-                if(displayCfgJSON != null) {
-                    isDimension = JsonUtils.getString(displayCfgJSON, IS_DIMENSION_KEY);
-                }
-                DataModelColumn column = columnMap.get(detail.getDetailContentId());
-                if(DataSetDetail.DETAIL_TYPE_MESSUREMENT.equals(column.getColumnType()) 
-                    || DataSetDetail.DETAIL_TYPE_PRIMARY.equals(column.getColumnType())
-                    || DataSetDetail.DETAIL_TYPE_COMMON.equals(column.getColumnType())) {//度量、主键、普通字段
-                    selectPartBuilder2.append(tableName2Alias.get(dataModeId2TableNameMap.get(column.getDataModelId()))).append(DOT).append(column.getCode());
-                    if(StringUtils.isBlank(detail.getDetailContentAlias())) {//未设置列的别名
-                        selectPartBuilder2.append(COMMA).append(SPACE_STRING);
-                    }else {//设置了列的别名
-                        selectPartBuilder2.append(SPACE_STRING).append(detail.getDetailContentAlias()).append(COMMA).append(SPACE_STRING);
-                    }
-                    if(YesOrNo.YES.equals(isDimension)) {
-                        groupPartBuilder.append(tableName2Alias.get(dataModeId2TableNameMap.get(column.getDataModelId()))).append(DOT).append(column.getCode()).append(COMMA).append(SPACE_STRING);
-                        orderPartBuilder.append(tableName2Alias.get(dataModeId2TableNameMap.get(column.getDataModelId()))).append(DOT).append(column.getCode()).append(COMMA).append(SPACE_STRING);
-                    }
-                }else if(DataSetDetail.DETAIL_TYPE_DIMENSION.equals(column.getColumnType())) {//维度
-                    selectPartBuilder.append(tableName2Alias.get(dataModeId2TableNameMap.get(column.getDataModelId()))).append(DOT).append(column.getCode());
+            }else if(DataSetDetail.DETAIL_TYPE_METRICS.equals(detail.getDetailType()) && YesOrNo.YES.equals(isDimension)) {//指标且当维度使用
+                DataModelMetrics metric = metricMap.get(detail.getDetailContentId());
+                if(!StringUtils.isBlank(metric.getMetricFormula())) {
+                    //如果配置时有设置"{tableAlias}"的占位符，需要用表的别名替换
+                    selectPartBuilder.append(metric.getMetricFormula().replaceAll(TABLE_ALIAS_REPLACEMENT, tableName2Alias.get(dataModeId2TableNameMap.get(metric.getDataModelId())))).append(SPACE_STRING).append(metric.getCode());
                     if(StringUtils.isBlank(detail.getDetailContentAlias())) {//未设置列的别名
                         selectPartBuilder.append(COMMA).append(SPACE_STRING);
                     }else {//设置了列的别名
                         selectPartBuilder.append(SPACE_STRING).append(detail.getDetailContentAlias()).append(COMMA).append(SPACE_STRING);
                     }
-                    if(YesOrNo.YES.equals(isDimension) || StringUtils.isBlank(isDimension)) {
+                    groupPartBuilder.append(metric.getMetricFormula().replaceAll(TABLE_ALIAS_REPLACEMENT, tableName2Alias.get(dataModeId2TableNameMap.get(metric.getDataModelId())))).append(COMMA).append(SPACE_STRING);
+                    orderPartBuilder.append(metric.getMetricFormula().replaceAll(TABLE_ALIAS_REPLACEMENT, tableName2Alias.get(dataModeId2TableNameMap.get(metric.getDataModelId())))).append(COMMA).append(SPACE_STRING);
+                }
+            }else if(DataSetDetail.DETAIL_TYPE_TAG.equals(detail.getDetailType())) {//标签，不能用于这部分
+                //detail.setContent(this.dataModelTagSV.byId(detail.getDetailContentId()));
+            }else if(DataSetDetail.DETAIL_TYPE_FILTER.equals(detail.getDetailType())) {//过滤器， 不能用于这部分
+                //detail.setContent(this.dataModelFilterSV.byId(detail.getDetailContentId()));
+            }else {//其他
+                DataModelColumn column = columnMap.get(detail.getDetailContentId());
+                if(DataSetDetail.DETAIL_TYPE_MESSUREMENT.equals(column.getColumnType()) 
+                    || DataSetDetail.DETAIL_TYPE_PRIMARY.equals(column.getColumnType())
+                    || DataSetDetail.DETAIL_TYPE_COMMON.equals(column.getColumnType())) {//度量、主键、普通字段
+                    if(YesOrNo.YES.equals(isDimension)) {//当维度使用
+                        selectPartBuilder.append(tableName2Alias.get(dataModeId2TableNameMap.get(column.getDataModelId()))).append(DOT).append(column.getCode());
+                        if(StringUtils.isBlank(detail.getDetailContentAlias())) {//未设置列的别名
+                            selectPartBuilder.append(COMMA).append(SPACE_STRING);
+                        }else {//设置了列的别名
+                            selectPartBuilder.append(SPACE_STRING).append(detail.getDetailContentAlias()).append(COMMA).append(SPACE_STRING);
+                        }
+                        groupPartBuilder.append(tableName2Alias.get(dataModeId2TableNameMap.get(column.getDataModelId()))).append(DOT).append(column.getCode()).append(COMMA).append(SPACE_STRING);
+                        orderPartBuilder.append(tableName2Alias.get(dataModeId2TableNameMap.get(column.getDataModelId()))).append(DOT).append(column.getCode()).append(COMMA).append(SPACE_STRING);
+                    }else {//默认
+                        selectPartBuilder2.append(tableName2Alias.get(dataModeId2TableNameMap.get(column.getDataModelId()))).append(DOT).append(column.getCode());
+                        if(StringUtils.isBlank(detail.getDetailContentAlias())) {//未设置列的别名
+                            selectPartBuilder2.append(COMMA).append(SPACE_STRING);
+                        }else {//设置了列的别名
+                            selectPartBuilder2.append(SPACE_STRING).append(detail.getDetailContentAlias()).append(COMMA).append(SPACE_STRING);
+                        }
+                    }
+                }else if(DataSetDetail.DETAIL_TYPE_DIMENSION.equals(column.getColumnType())) {//维度
+                    if(YesOrNo.NO.equals(isDimension)) {//未当维度使用
+                        selectPartBuilder2.append(tableName2Alias.get(dataModeId2TableNameMap.get(column.getDataModelId()))).append(DOT).append(column.getCode());
+                        if(StringUtils.isBlank(detail.getDetailContentAlias())) {//未设置列的别名
+                            selectPartBuilder2.append(COMMA).append(SPACE_STRING);
+                        }else {//设置了列的别名
+                            selectPartBuilder2.append(SPACE_STRING).append(detail.getDetailContentAlias()).append(COMMA).append(SPACE_STRING);
+                        }
+                    }else {//默认
+                        selectPartBuilder.append(tableName2Alias.get(dataModeId2TableNameMap.get(column.getDataModelId()))).append(DOT).append(column.getCode());
+                        if(StringUtils.isBlank(detail.getDetailContentAlias())) {//未设置列的别名
+                            selectPartBuilder.append(COMMA).append(SPACE_STRING);
+                        }else {//设置了列的别名
+                            selectPartBuilder.append(SPACE_STRING).append(detail.getDetailContentAlias()).append(COMMA).append(SPACE_STRING);
+                        }
                         groupPartBuilder.append(tableName2Alias.get(dataModeId2TableNameMap.get(column.getDataModelId()))).append(DOT).append(column.getCode()).append(COMMA).append(SPACE_STRING);
                         orderPartBuilder.append(tableName2Alias.get(dataModeId2TableNameMap.get(column.getDataModelId()))).append(DOT).append(column.getCode()).append(COMMA).append(SPACE_STRING);
                     }
@@ -745,13 +773,21 @@ public class DataSetService {
                             keyString = DATE_FORMAT_FUNC + LEFT_BRACKET + tableName2Alias.get(dataModeId2TableNameMap.get(column.getDataModelId())) + DOT + keyString + COMMA + SPACE_STRING + SINGLE_QUOTATION_MARK + formatCfg + SINGLE_QUOTATION_MARK + RIGHT_BRACKET;
                         }
                     }
-                    selectPartBuilder.append(keyString).append(SPACE_STRING).append(column.getCode());//设置别名
-                    if(StringUtils.isBlank(detail.getDetailContentAlias())) {//未设置列的别名
-                        selectPartBuilder.append(COMMA).append(SPACE_STRING);
-                    }else {//设置了列的别名
-                        selectPartBuilder.append(SPACE_STRING).append(detail.getDetailContentAlias()).append(COMMA).append(SPACE_STRING);
-                    }
-                    if(YesOrNo.YES.equals(isDimension) || StringUtils.isBlank(isDimension)) {
+                    
+                    if(YesOrNo.NO.equals(isDimension)) {//未当维度使用
+                        selectPartBuilder2.append(keyString).append(SPACE_STRING).append(column.getCode());//设置别名
+                        if(StringUtils.isBlank(detail.getDetailContentAlias())) {//未设置列的别名
+                            selectPartBuilder2.append(COMMA).append(SPACE_STRING);
+                        }else {//设置了列的别名
+                            selectPartBuilder2.append(SPACE_STRING).append(detail.getDetailContentAlias()).append(COMMA).append(SPACE_STRING);
+                        }
+                    }else {//默认
+                        selectPartBuilder.append(keyString).append(SPACE_STRING).append(column.getCode());//设置别名
+                        if(StringUtils.isBlank(detail.getDetailContentAlias())) {//未设置列的别名
+                            selectPartBuilder.append(COMMA).append(SPACE_STRING);
+                        }else {//设置了列的别名
+                            selectPartBuilder.append(SPACE_STRING).append(detail.getDetailContentAlias()).append(COMMA).append(SPACE_STRING);
+                        }
                         groupPartBuilder.append(keyString).append(COMMA).append(SPACE_STRING);
                         orderPartBuilder.append(keyString).append(COMMA).append(SPACE_STRING);
                     }
