@@ -20,3 +20,9 @@ zpaas-documents/（06）zPaaS低代码平台使用介绍：实现流程审批功
 zpaas-documents/（07）zPaaS低代码平台使用介绍：实现AI多轮对话功能.pdf
 
 zpaas-documents/（08）zPaaS低代码平台部署指南.pdf
+
+zpaas-documents/（09）zPaaS低代码平台使用介绍：实现自定义复杂报表.pdf
+
+zpaas-documents/（10）zPaaS低代码平台使用介绍：实现可视化图表.pdf
+
+
