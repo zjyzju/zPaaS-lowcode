@@ -54,16 +54,7 @@ export default {
         }
     },
     mounted() {
-        axiosClient.post("/lcdp-proxy/lowcode/platform/fe/api/dict/getChartDesignComponents").then((response) => {
-            var data = response.data; 
-            if(data != null && data.status == "200" && data.data != null) {
-                this.chartComponents = data.data;
-            }
-        }).catch(ex => {
-            ElMessage.error(`加载字典数据失败!\n` + ex);
-        });
-
-    	var url = document.location;
+        var url = document.location;
     	var searchString = url.search.substring(1);
     	var params = searchString.split("&");
     	
@@ -80,8 +71,17 @@ export default {
                     }
                 }
             }
-    	})
-        this.reloadFuncDefineAll();
+    	});
+
+        axiosClient.post("/lcdp-proxy/lowcode/platform/fe/api/dict/getChartDesignComponents").then((response) => {
+            var data = response.data; 
+            if(data != null && data.status == "200" && data.data != null) {
+                this.chartComponents = data.data;
+                this.reloadFuncDefineAll();
+            }
+        }).catch(ex => {
+            ElMessage.error(`加载字典数据失败!\n` + ex);
+        });
     },
     methods: {
     	reloadFuncDefineAll() {

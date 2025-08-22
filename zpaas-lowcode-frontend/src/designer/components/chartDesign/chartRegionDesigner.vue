@@ -127,11 +127,12 @@ export default {
             var data = response.data; 
             if(data != null && data.status == "200" && data.data != null) {
                 this.chartData.chartComponents = data.data;
+                this.initAttrDisplayInfo();
             }
         }).catch(ex => {
             ElMessage.error(`加载字典数据失败!\n` + ex);
         });
-        this.initAttrDisplayInfo();
+        
     },
     methods: {
     	initAttrDisplayInfo() {
@@ -322,7 +323,7 @@ export default {
                 var url = "/lcdp-proxy/lowcode/platform/fe/api/funcRegion/saveChartDesignInfo";
                 axiosClient.post(url, designInfo).then((response) => {
                     var data = response.data;
-                    if(data > 0) {
+                    if(data.data > 0) {
                         ElMessage(`保存成功。`);
                         this.hideChartRegionDesigner();
                     }else {
