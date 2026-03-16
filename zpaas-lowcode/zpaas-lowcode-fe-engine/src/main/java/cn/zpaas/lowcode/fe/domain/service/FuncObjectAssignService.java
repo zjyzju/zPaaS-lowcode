@@ -19,7 +19,7 @@ import cn.zpaas.lowcode.exception.EngineException;
  * 功能对象绑定领域服务
  *
  * @author zjy
- * createTime 2025年04月05日-09:50:18
+ * createTime 2025年04月02日-09:50:18
  */
 @Service
 public class FuncObjectAssignService {

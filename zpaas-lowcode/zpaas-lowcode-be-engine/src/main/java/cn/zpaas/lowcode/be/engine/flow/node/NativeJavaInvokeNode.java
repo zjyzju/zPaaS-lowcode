@@ -50,6 +50,27 @@ public class NativeJavaInvokeNode extends Node {
 	private static final String CFG_TARGET_OBJECT_SOURCE_C = "C"; //来自Spring容器
 	
 	
+	/*
+ 	{
+		targetJavaClass: 调用目标Java类，全package路径类名；
+		targetJavaMethod：调用目标方法名
+		targetObjectSource：调用目标对象来源，“N”：新建；“C”：来自Spring容器
+		targetMethodParamTypes：调用目标方法参数列表
+		[{
+			paramType：参数类型，全package路径类名
+			paramName: 参数名，该参数名用来在入参中获取对象，可空，为空时使用反射获取到的参数名
+			isList：是否列表，true/false，可空，默认为否
+			elementType：可空，当isList为true是有效，表示列表中元素的类型，如果已经指定泛型，可以不配置
+		}]
+		
+		paramObjectSource：调用目标对象参数的来源，包括：I（输入参数）；P（过程数据）；N（预处理输出的nodeParams）
+		paramObjectKey：调用目标对象参数的key，当来源为I（输入参数）或N（预处理输出的nodeParams）时，该值无效；为P（过程数据）时，该值表示context.values中的key值；
+					
+		isListResult：节点执行结果是否是List类型，包括：true/false
+		nodeResultType：节点执行结果对象的类型，包括：JDK原生对象（J）、领域对象（D）、值传递对象（R）
+		nodeResultClass：节点执行结果对象的实现类，当属性类型为JDK原生对象（J）时，对应的JDK原生对象类型，完整的类名表示；为领域对象（DO）或值传递对象（RO）时有效，对应领域对象或值传递对象的主键，为空时，表示使用默认结构
+	}
+	 */
 	
 	/**
 	 * 该节点类型的业务处理方法，参数为业务流节点信息和业务流上下文对象

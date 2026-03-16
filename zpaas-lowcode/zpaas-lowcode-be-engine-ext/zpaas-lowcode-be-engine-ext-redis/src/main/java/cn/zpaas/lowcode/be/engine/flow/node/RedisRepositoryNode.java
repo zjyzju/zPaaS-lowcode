@@ -36,7 +36,33 @@ public class RedisRepositoryNode extends Node {
 	private static final String CFG_PARAM_ATTR_PATH_KEY = "paramAttrPath"; //参数对象属性对应的json path存放的Key
 	
 	
+	/*
+	 {
+		redisCommand：要执行的redis命令，如set、get、ladd、keys。。。，以下命令不允许执行："auth", "quit", "flushdb", "flushall", "select", "save", "bgsave", "shundown", "info", "monitor", "slaveof", "config"。人工输入方式（命令过多）。
+		redisResourceId：要操作的redis技术服务资源标识，从类型为redis的技术服务资源中选择
+		useObjectSerializer: 是否对返回结果使用对象序列器，true/false
+
+		params：[//参数列表，如果服务端是cluster模式时，第一个参数同时作为sampleKey
+			{
+				paramSource：参数对象的来源，包括：P（过程数据）；D（领域对象）；I（输入参数）；N（预处理产生的nodeParams）；O（业务流的属主领域对象）；F（固定的值）
+				paramIsList：参数对象是否是列表，true/false；
+				paramKey：参数对象的Key值，条件对象的来源为I（输入参数）时，表示输入参数中的Key；
+					为D（领域对象）时，表示领域对象在context.attributedObjectMap或context.attributedObjectsMap（根据conditionObjectIsList的值进行区分）中的key值；
+					为P（过程数据）时，该值表示context.values中的key值，
+					当为N（预处理产生的nodeParams）或O（业务流的属主领域对象）时，Key值无效；
+					为F（固定值）时，该值为具体的值；
+				paramAttrPath：参数对象属性对应的json path，如果是“$”，则表示条件对象本身
 	
+			}
+		……
+		]
+
+
+		isListResult：节点执行结果是否是List类型，包括：true/false
+		nodeResultType：节点执行结果对象的类型，包括：JDK原生对象（J）、领域对象（D）、值传递对象（R）
+		nodeResultClass：节点执行结果对象的实现类，当属性类型为JDK原生对象（J）时，对应的JDK原生对象类型，完整的类名表示；为领域对象（DO）或值传递对象（RO）时有效，对应领域对象或值传递对象的主键，为空时，表示使用默认结构
+	 }
+	 */
 	/**
 	 * 该节点类型的业务处理方法，参数为业务流节点信息和业务流上下文对象
 	 * 

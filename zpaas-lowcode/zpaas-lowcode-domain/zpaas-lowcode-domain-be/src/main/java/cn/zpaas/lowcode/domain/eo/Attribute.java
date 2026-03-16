@@ -15,7 +15,7 @@ import cn.zpaas.lowcode.utils.KeyGenerate;
  * 属性领域对象
  *
  * @author zjy
- * createTime 2025年04月6日-下午10:39:40
+ * createTime 2025年04月2日-下午10:39:40
  */
 @Repository
 public class Attribute {

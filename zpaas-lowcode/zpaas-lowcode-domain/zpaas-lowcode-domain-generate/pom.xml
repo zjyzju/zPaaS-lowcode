@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+		<groupId>cn.zpaas.lowcode</groupId>
+        <artifactId>zpaas-lowcode-domain</artifactId>
+		<version>0.0.2-SNAPSHOT</version>
+	</parent>
+    <artifactId>zpaas-lowcode-domain-generate</artifactId>
+    <name>zpaas-lowcode-domain-generate</name>
+    
+    <dependencies>
+        <dependency>
+            <groupId>org.mybatis.generator</groupId>
+            <artifactId>mybatis-generator-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.ibatis</groupId>
+            <artifactId>ibatis-core</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin><!-- mvn mybatis-generator:generate -f "pom.xml"-->
+                <groupId>org.mybatis.generator</groupId>
+                <artifactId>mybatis-generator-maven-plugin</artifactId>
+                <version>1.4.0</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.mysql</groupId>
+                        <artifactId>mysql-connector-j</artifactId>
+                        <version>${mysql-connector.version}</version>
+                    </dependency>
+                </dependencies>
+                <configuration>
+                    <!-- 输出详细信息 -->
+                    <verbose>true</verbose>
+                    <!-- 覆盖生成文件 -->
+                    <overwrite>true</overwrite>
+                    <!-- 定义配置文件 -->
+                    <configurationFile>${basedir}/src/main/resources/generator-configuration.xml</configurationFile>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>

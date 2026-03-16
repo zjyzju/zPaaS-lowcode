@@ -51,6 +51,27 @@ public class ORMRepositoryNode extends Node {
 	public static final String REPOSITORY_OPERATION_SAVE = "S"; //save操作
 	
 	
+	
+	/*
+	 * { 
+	 *  isListType：领域对象是否是列表类型，true/false，当值为true时，仅对I（插入操作）、DK（按主键删除操作）、UK（按主键更新操作）、UKS（按主键更新操作，空值也更新）、S（保存操作）有效
+	 *  domainObjectSource：领域对象的来源，D：领域对象；O：业务流属主领域对象；I：输入参数；N：预处理产生的nodeParams
+	 * 	domainObjectKey: domainObjectKey：源对象实例的Key值，源对象类型为I（输入参数）时，表示输入参数中的Key；
+	 * 			为D（领域对象）时，表示领域对象在context.attributedObjectMap或context.attributedObjectsMap（根据isListType的值进行区分）中的key值；
+	 * 			当为O（业务流属主领域对象）或N（预处理产生的nodeParams）时，Key值无效，isListType也不能为true。 
+	 * 	domainObjectId: 领域对象标识 
+	 * 
+	 * 	ormId: ORM标识
+	 * 	repositoryOperation：要执行的数据库操作，包括：I（插入操作）、DK（按主键删除操作）、UK（按主键更新操作）、QK（按主键查询操作）、DC（
+	 * 					按条件删除操作）、QC（按条件查询操作）、S（保存操作） 
+	 *  pageFlag：是否支持分页，true/false，当数据库操作为：QC（按条件查询操作）时有效
+	 * 	isListResult：节点执行结果是否是List类型，包括：true/false
+	 * 	nodeResultType：节点执行结果对象的类型，包括：JDK原生对象（J）、领域对象（D）、值传递对象（R）
+	 * 	nodeResultClass：节点执行结果对象的实现类，当属性类型为JDK原生对象（J）时，对应的JDK原生对象类型，完整的类名表示；为领域对象（DO）
+	 * 				或值传递对象（RO）时有效，对应领域对象或值传递对象的主键，为空时，表示使用默认结构 
+	 * }
+	 * 
+	 */
 	@Override
 	/**
 	 * 该节点类型的业务处理方法，参数为业务流节点信息和业务流上下文对象

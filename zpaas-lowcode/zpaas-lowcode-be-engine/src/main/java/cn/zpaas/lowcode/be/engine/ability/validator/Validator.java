@@ -43,6 +43,16 @@ public abstract class Validator {
 	 * @param attrValue 属性值
 	 * @param srcObject 校验对象（完整的对象）
 	 * @return 校验结果
+	 * 返回值的格式为：
+	 *  {
+	 *		status：校验是否通过，true/false
+	 *		interrupted: 是否中断，true/false
+	 *  	messages: [
+	 *  	{
+	 *  		message：提示信息，主要是未通过情况下的错误信息
+	 *  		errorCode：错误码
+	 *  	}]
+	 *  }
 	 */
 	public JsonObject validate(ValidateRule validateRule, Object attrValue, JsonObject srcObject, JsonObject parentObject)  throws EngineException {
 		if(logger.isDebugEnabled()) {
@@ -75,6 +85,15 @@ public abstract class Validator {
 	 * @param attrValue 属性值
 	 * @param srcObject 校验对象（完整的对象）
 	 * @return 校验结果
+	 * 返回值的格式为：
+	 *  {
+	 *		status：校验是否通过，true/false
+	 *  	messages: [
+	 *  	{
+	 *  		message：提示信息，主要是未通过情况下的错误信息
+	 *  		errorCode：错误码
+	 *  	}]
+	 *  }
 	 */
 	abstract protected JsonObject validateImpl(ValidateRule validateRule, Object attrValue, JsonObject srcObject, JsonObject parentObject) throws EngineException ;
 	

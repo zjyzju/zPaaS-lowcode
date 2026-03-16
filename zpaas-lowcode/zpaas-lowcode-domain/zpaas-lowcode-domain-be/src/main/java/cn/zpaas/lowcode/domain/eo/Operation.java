@@ -151,6 +151,12 @@ public class Operation {
     	criteria.createCriteria().andObjectTypeEqualTo(objectType).andStatusEqualTo(Status.EFF);
     	return mapper.selectByExample(criteria);
     }
+
+    public List<Operation> listByBusinessFlowId(String businessFlowId, String systemId) {
+    	OperationExample criteria = new OperationExample();
+    	criteria.createCriteria().andBusinessFlowIdEqualTo(businessFlowId).andSystemIdEqualTo(systemId).andStatusEqualTo(Status.EFF);
+    	return mapper.selectByExample(criteria);
+    }
     
     public List<Operation> listByObjectTypeAndSystem(String objectType, String systemId) {
     	OperationExample criteria = new OperationExample();

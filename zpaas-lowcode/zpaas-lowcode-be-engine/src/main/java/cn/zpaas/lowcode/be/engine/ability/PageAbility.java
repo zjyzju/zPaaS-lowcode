@@ -4,7 +4,7 @@ import cn.zpaas.lowcode.bean.PageParam;
 
 /**
  * @author zjy
- * 分页能力提供辅助类
+ * 分布能力提供辅助类
  */
 public class PageAbility {
 	private static ThreadLocal<PageParam> pageParams = new ThreadLocal<>();

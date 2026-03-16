@@ -28,6 +28,19 @@ public class TypeConvertNode extends Node {
 	private static final String CFG_TO_TYPE_STRING = "S";//String
 	private static final String CFG_TO_TYPE_JSON = "J";//JSON
 		
+	/*
+	 {
+		toType：目标对象的类型，包括：S（String），J（JSON对象）
+		
+		fromObjectInstanceSource：源对象实例的来源，包括：I（输入参数）；P（过程数据）；D（领域对象）；N（预处理产生的nodeParams）
+		fromObjectInstanceKey：源对象实例的Key值，源对象类型为I（输入参数）时，表示输入参数中的Key；为D（领域对象）时，表示领域对象在context.attributedObjectMap或context.attributedObjectsMap（根据isListType的值进行区分）中的key值；为P（过程数据）时，该值表示context.values中的key值，当为N（预处理产生的nodeParams）时，Key值无效
+		fromObjectInstanceAttr：当源对象是指定对象的某个属性时有效，通过该字段指
+		
+		isListResult：节点执行结果是否是List类型，包括：true/false
+		nodeResultType：节点执行结果对象的类型，包括：JDK原生对象（J）、领域对象（D）、值传递对象（R）
+		nodeResultClass：节点执行结果对象的实现类，当属性类型为JDK原生对象（J）时，对应的JDK原生对象类型，完整的类名表示；为领域对象（DO）或值传递对象（RO）时有效，对应领域对象或值传递对象的主键，为空时，表示使用默认结构
+	}
+	 */
 	
 	
 	/**

@@ -2,8 +2,12 @@ package cn.zpaas.lowcode.be.ide.service;
 
 import java.util.List;
 
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
+
 import com.google.gson.JsonObject;
 
+import cn.zpaas.lowcode.be.ide.vo.AiFlowComposerChatInfo;
+import cn.zpaas.lowcode.be.ide.vo.AiGenBusinessFlowInfo;
 import cn.zpaas.lowcode.be.ide.vo.BusinessSystemGrantVo;
 import cn.zpaas.lowcode.be.ide.vo.BusinessSystemInfo;
 import cn.zpaas.lowcode.be.ide.vo.BusinessSystemTestVo;
@@ -225,6 +229,22 @@ public interface PlatformService {
 	 * @return
 	 */
 	public BusinessFlowInfo saveBusinessFlowAllInfo(BusinessFlowInfo businessFlowInfo)  throws EngineException;
+
+	/**
+	 * 通过Ai生成业务流编排信息
+	 * @param chatInfo
+	 * @param sseEmiter
+	 * @return
+	 */
+	public String chatWithAiBusinessFlow(AiFlowComposerChatInfo chatInfo, SseEmitter sseEmitter)  throws EngineException;
+
+	/**
+	 * 使用Ai生成的业务流节点列表信息生成业务流信息
+	 * @param aiGenInfo
+	 * @return
+	 * @throws EngineException
+	 */
+	public BusinessFlowInfo genBusinessFlowInfoWithAi(AiGenBusinessFlowInfo aiGenInfo) throws EngineException;
 	
 	/**
 	 * 新建业务流节点

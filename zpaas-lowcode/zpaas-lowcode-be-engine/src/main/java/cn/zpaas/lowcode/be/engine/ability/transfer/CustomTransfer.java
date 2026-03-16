@@ -17,6 +17,13 @@ import cn.zpaas.lowcode.exception.EngineException;
 public class CustomTransfer extends Transfer {
     private static final String IMPL_CLASS_KEY = "implClass";// 自定义转换实现类
 
+    /**
+     * {
+     * "implClass":"cn.zpaas.lowcode.be.engine.ability.transfer.MultiConcatTransfer",//固定配置
+     * "concatPattern":"${userName}(${userId})-${address.cityName}",//自定义实现方法定义的配置
+     * "otherConcatAttrs":["userName","address.cityName"]//自定义实现方法定义的配置
+     * }
+     */
     @Override
     public Object transfer(Attribute fromAttr, Object fromAttrValue, Attribute toAttr, JsonObject transferCfg,
             JsonObject fromObject) throws EngineException {

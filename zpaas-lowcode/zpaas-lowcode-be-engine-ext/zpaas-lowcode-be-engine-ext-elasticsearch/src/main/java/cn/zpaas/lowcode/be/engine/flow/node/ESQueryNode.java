@@ -68,7 +68,18 @@ public class ESQueryNode extends Node {
     public static final String ES_QUERY_RIGHT_BRACE = "}"; //ES请求的}
     
 
-    
+    /*
+	{
+		sqlId：对应be_sql_management表的主键
+		resourceId: ES服务器标识，对应be_sql_management表的resourceId字段
+		pageFlag：是否支持分页，true/false
+		
+		isListResult：节点执行结果是否是List类型，包括：true/false
+		nodeResultType：节点执行结果对象的类型，包括：JDK原生对象（J）、领域对象（D）、值传递对象（R）
+		nodeResultClass：节点执行结果对象的实现类，当属性类型为JDK原生对象（J）时，对应的JDK原生对象类型，完整的类名表示；
+					为领域对象（DO）或值传递对象（RO）时有效，对应领域对象或值传递对象的主键，为空时，表示使用默认结构
+	}
+	 */
 	/**
 	 * 该节点类型的业务处理方法，参数为业务流节点信息和业务流上下文对象
 	 * 
@@ -198,7 +209,37 @@ public class ESQueryNode extends Node {
             if (resultAggsNode == null) {
                 continue;
             }
-            
+            /*{
+            	  "aggregations" : {
+            	    "brand_bucket" : {
+            	      "doc_count_error_upper_bound" : 0,
+            	      "sum_other_doc_count" : 0,
+            	      "buckets" : [
+            	        {
+            	          "key" : "Audi",
+            	          "doc_count" : 3
+            	        },
+            	        {
+            	          "key" : "BMW",
+            	          "doc_count" : 2
+            	        }
+            	      ]
+            	    }
+            	  }
+            	}	
+            	获得的目标结果为
+            	{
+            	  "brand_bucket" : [
+            	    {
+            	      "key" : "Audi",
+            	      "doc_count" : 3
+            	    },
+            	    {
+            	      "key" : "BMW",
+            	      "doc_count" : 2
+            	    }
+            	  ]
+            	}	*/
             //桶聚合
             if (resultAggsNode.has(ES_RESULT_BUCKETS)) {
                 JsonArray buckets = JsonUtils.getJsonArray(resultAggsNode, ES_RESULT_BUCKETS);
@@ -227,7 +268,40 @@ public class ESQueryNode extends Node {
                 });
                 result.add(aggsKey, JsonUtils.toJsonElement(bucketList));
             }else {
-	            
+	            /*top类聚合， top_hits
+	        	{
+	        	  "aggregations" : {
+	        	    "top1" : {
+	        	      "hits" : {
+	        	        ......
+	        	        "hits" : [
+	        	          {
+	        	            "_index" : "cars",
+	        	            "_id" : "VH76jH8BsT66B0Tp3PuG",
+	        	            "_score" : 1.0,
+	        	            "_source" : {
+	        	              "price" : 80000,
+	        	              "color" : "red",
+	        	              "brand" : "BMW",
+	        	              "sellTime" : "2014-01-28"
+	        	            }
+	        	          }
+	        	        ]
+	        	      }
+	        	    }
+	        	  }
+	        	}	
+	        	获得的目标结果为
+	        	{
+	        	  "top1" : [
+	        	    {
+	        	      "price" : 80000,
+	        	      "color" : "red",
+	        	      "brand" : "BMW",
+	        	      "sellTime" : "2014-01-28"
+	        	    }
+	        	  ]
+	        	}*/
 	            if (resultAggsNode.get(ES_RESULT_HITS)!=null) {            	
 	                List<JsonObject> resultList = new ArrayList<>();
 	                JsonArray hits = JsonUtils.getJsonArray(JsonUtils.getJsonObject(resultAggsNode, ES_RESULT_HITS), ES_RESULT_HITS);
@@ -237,15 +311,78 @@ public class ESQueryNode extends Node {
 	            	//保存当前Aggs解析结果的对象
 	            	JsonObject currAggsResult = new JsonObject();
 	            	
-	            	
+	            	/*单值类聚合的结果示例，min, max, avg, sum, cardinality等
+	                {
+	                  "aggregations" : {
+	                    "avg_price" : {
+	                      "value" : 74625.0
+	                    }
+	                  }
+	                }
+	                获得的目标结果为
+	                {
+	                  "avg_price" : {
+	                    "value" : 74625.0
+	                  }
+	                } */
 	                if (resultAggsNode.get(ES_RESULT_VALUE)!=null) {            	
 	                	currAggsResult.addProperty(ES_RESULT_VALUE, JsonUtils.getFloat(resultAggsNode, ES_RESULT_VALUE));
 	                }  
-	                
+	                /* 多值类聚合的结果示例，percentile_rank,percentiles
+	                {
+	                  "aggregations" : {
+	                    "percentile_ranks_price" : {
+	                      "values" : {
+	                        "10000.0" : 0.0,
+	                        "35000.0" : 6.25,
+	                        "40000.0" : 15.0,
+	                        "50000.0" : 25.0,
+	                        "60000.0" : 32.8125,
+	                        "70000.0" : 42.5,
+	                        "100000.0" : 78.57142857142857
+	                      }
+	                    }
+	                  }
+	                }
+	                获得的目标结果为
+	                {
+	                    "percentile_ranks_price" : {
+	                      "values" : {
+	                        "10000.0" : 0.0,
+	                        "35000.0" : 6.25,
+	                        "40000.0" : 15.0,
+	                        "50000.0" : 25.0,
+	                        "60000.0" : 32.8125,
+	                        "70000.0" : 42.5,
+	                        "100000.0" : 78.57142857142857
+	                      }
+	                    }
+	                }*/
 	                if (resultAggsNode.get(ES_RESULT_VALUES)!=null) {           	
 	                    currAggsResult.addProperty(ES_RESULT_VALUES, JsonUtils.getFloat(resultAggsNode, ES_RESULT_VALUES));
 	                } 
-	            	
+	            	/* 多统计值类聚合的结果示例，stats, extended_stats
+	                {
+	                    "aggregations" : {
+	                      "stats_price" : {
+	                        "count" : 8,
+	                        "min" : 35000.0,
+	                        "max" : 120000.0,
+	                        "avg" : 74625.0,
+	                        "sum" : 597000.0
+	                      }
+	                    }
+	                }
+	                获得的目标结果为
+	                {
+	                      "stats_price" : {
+	                        "count" : 8,
+	                        "min" : 35000.0,
+	                        "max" : 120000.0,
+	                        "avg" : 74625.0,
+	                        "sum" : 597000.0
+	                      }
+	                }*/
 	            	if (resultAggsNode.get(ES_RESULT_COUNT)!=null) {
 	            		currAggsResult.addProperty(ES_RESULT_COUNT, JsonUtils.getFloat(resultAggsNode, ES_RESULT_COUNT));
 	                }
@@ -261,7 +398,17 @@ public class ESQueryNode extends Node {
 	            	if (resultAggsNode.get(ES_RESULT_SUM)!=null) {
 	            		currAggsResult.addProperty(ES_RESULT_SUM, JsonUtils.getFloat(resultAggsNode, ES_RESULT_SUM));
 	                }
-	            	
+	            	/*{
+	            		  "aggregations" : {
+	            		    "price_filter" : {
+	            		      "doc_count" : 2
+	            		    }
+	            		  }
+	            		}
+	            		获得的目标结果为
+	            		"price_filter" : {
+	            		  "doc_count" : 2
+	            		}*/
 	            	if (resultAggsNode.get(ES_RESULT_DOC_COUNT)!=null) {
 	            		currAggsResult.addProperty(ES_RESULT_DOC_COUNT, JsonUtils.getLong(resultAggsNode, ES_RESULT_DOC_COUNT));
 	                }

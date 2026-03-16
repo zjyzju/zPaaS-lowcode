@@ -42,7 +42,32 @@ public class TransferNode extends Node {
 	// //目标对象的类存放的Key
 	private static final String CFG_DATA_MAPPING_ID_KEY = "dataMappingId"; // 数据映射标识存放的Key
 	
-	
+	/*
+	 * {
+	 * isListType: 是否列表类型，true/false
+	 * 
+	 * fromObjectInstanceSource：源对象实例的来源，包括：I（输入参数）；P（过程数据）；D（领域对象）；N（
+	 * 预处理产生的nodeParams）
+	 * fromObjectInstanceKey：源对象实例的Key值，源对象类型为I（输入参数）时，该字段无效；为D（领域对象）时，
+	 * 表示领域对象在context.attributedObjectMap中的key值；为P（过程数据）时，该值表示context.values中的key值
+	 * fromObjectInstanceAttr：当源对象是指定对象的某个属性时有效，通过该字段指定对应属性的code。
+	 * fromObjectType：源对象的类型，包括：D（领域对象），R（值传递对象）
+	 * fromObjectClass：源对象的类，对应领域对象或值传递对象的标识
+	 * 
+	 * toObjectInstanceSource：目标对象实例的来源，可空，如果目标对象实例已经存在的情况下配置，这种情况下，
+	 * 后置配置信息中的相关信息可以不用配置，包括：P（过程数据）；D（领域对象）；
+	 * toObjectInstanceKey：目标对象实例的Key值
+	 * toObjectType：目标对象的类型，包括：D（领域对象），R（值传递对象）
+	 * toObjectClass：目标对象的类，对应领域对象或值传递对象的标识
+	 * 
+	 * dataMappingId：数据映射标识，包括参数复制的映射规则
+	 * 
+	 * isListResult：节点执行结果是否是List类型，包括：true/false
+	 * nodeResultType：节点执行结果对象的类型，包括：JDK原生对象（J）、领域对象（D）、值传递对象（R）
+	 * nodeResultClass：节点执行结果对象的实现类，当属性类型为JDK原生对象（J）时，对应的JDK原生对象类型，完整的类名表示；为领域对象（DO）
+	 * 或值传递对象（RO）时有效，对应领域对象或值传递对象的主键，为空时，表示使用默认结构
+	 * }
+	 */
 	/**
 	 * 该节点类型的业务处理方法，参数为业务流节点信息和业务流上下文对象
 	 * 

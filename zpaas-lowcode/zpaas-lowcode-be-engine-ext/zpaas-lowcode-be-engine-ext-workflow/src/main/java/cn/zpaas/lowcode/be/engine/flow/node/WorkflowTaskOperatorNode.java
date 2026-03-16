@@ -37,7 +37,24 @@ public class WorkflowTaskOperatorNode extends Node {
 	
 	
 	
-	
+	/*
+	 {
+		taskIdSource：任务实例标识来源，包括：P（过程数据）；D（领域对象）；O（属主对象）；I（输入参数）；F（固定值）。必填。
+		taskIdKey：任务实例标识的Key值。必填。
+		taskIdAttr：当源对象是指定对象的某个属性时有效，通过该字段指定对应属性的code，此时指定对象不能是列表类型。
+
+		taskOperation：任务操作，包括：A（领取）、C（完成）、G（委托）、D（删除）、R（解决）。必填。
+
+		processVariablesSource：流程参数的来源，包括：I（原始输入参数）；P（过程数据）；N（预处理产生的nodeParams）
+		processVariablesKey：流程参数的Key值，源对象类型为I（原始输入参数）和N（预处理产生的nodeParams）时，该值无效；为P（过程数据）时，该值表示context.values中的key值
+		
+		isListResult：节点执行结果是否是List类型，包括：true/false
+		nodeResultType：节点执行结果对象的类型，包括：JDK原生对象（J）、领域对象（D）、值传递对象（R）
+		nodeResultClass：节点执行结果对象的实现类，当属性类型为JDK原生对象（J）时，对应的JDK原生对象类型，完整的类名表示；为领域对象（DO）或值传递对象（RO）时有效，对应领域对象或值传递对象的主键，为空时，表示使用默认结构
+	}
+
+	 * 
+	 */
 	@Override
 	/**
 	 * 该节点类型的业务处理方法，参数为业务流节点信息和业务流上下文对象

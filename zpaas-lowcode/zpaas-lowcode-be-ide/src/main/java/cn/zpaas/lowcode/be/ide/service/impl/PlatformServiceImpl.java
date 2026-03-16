@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -84,8 +85,11 @@ import cn.zpaas.lowcode.be.engine.domain.service.BusinessFlowService;
 import cn.zpaas.lowcode.exception.EngineException;
 import cn.zpaas.lowcode.be.engine.proxy.DBSchemaProxy;
 import cn.zpaas.lowcode.be.ide.ability.ModelDrivenAbility;
+import cn.zpaas.lowcode.be.ide.domain.service.BusinessFlowGenService;
 import cn.zpaas.lowcode.be.ide.domain.service.ExposedServiceService;
 import cn.zpaas.lowcode.be.ide.service.PlatformService;
+import cn.zpaas.lowcode.be.ide.vo.AiFlowComposerChatInfo;
+import cn.zpaas.lowcode.be.ide.vo.AiGenBusinessFlowInfo;
 import cn.zpaas.lowcode.be.ide.vo.BusinessSystemGrantVo;
 import cn.zpaas.lowcode.be.ide.vo.BusinessSystemInfo;
 import cn.zpaas.lowcode.be.ide.vo.BusinessSystemTestVo;
@@ -196,6 +200,9 @@ public class PlatformServiceImpl implements PlatformService {
 
 	@Autowired
 	private BusinessFlowService businessFlowService;
+
+	@Autowired
+	private BusinessFlowGenService businessFlowGenService;
 
 	@Autowired
 	private CronJob cronJobSV;
@@ -639,6 +646,16 @@ public class PlatformServiceImpl implements PlatformService {
 	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
 	public BusinessFlowInfo saveBusinessFlowAllInfo(BusinessFlowInfo businessFlowInfo) throws EngineException{
 		return businessFlowService.saveBusinessFlowAllInfo(businessFlowInfo);
+	}
+
+	@Override
+	public String chatWithAiBusinessFlow(AiFlowComposerChatInfo chatInfo, SseEmitter sseEmitter)  throws EngineException {
+		return businessFlowGenService.chatWithAiBusinessFlow(chatInfo, sseEmitter);
+	}
+
+	@Override
+	public BusinessFlowInfo genBusinessFlowInfoWithAi(AiGenBusinessFlowInfo aiGenInfo) throws EngineException {
+		return businessFlowGenService.genBusinessFlowInfoWithAi(aiGenInfo);
 	}
 
 	@Override

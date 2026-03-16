@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.support.StandardMultipartHttpServletRequest;
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -78,7 +79,10 @@ import cn.zpaas.lowcode.exception.EngineException;
 import cn.zpaas.lowcode.be.engine.controller.FrontController;
 import cn.zpaas.lowcode.be.engine.proxy.DictProxy;
 import cn.zpaas.lowcode.be.engine.registry.ServiceRegistry;
+import cn.zpaas.lowcode.be.engine.utils.CustomizedSseEmitter;
 import cn.zpaas.lowcode.be.ide.service.PlatformService;
+import cn.zpaas.lowcode.be.ide.vo.AiFlowComposerChatInfo;
+import cn.zpaas.lowcode.be.ide.vo.AiGenBusinessFlowInfo;
 import cn.zpaas.lowcode.be.ide.vo.BusinessSystemGrantVo;
 import cn.zpaas.lowcode.be.ide.vo.BusinessSystemInfo;
 import cn.zpaas.lowcode.be.ide.vo.BusinessSystemTestVo;
@@ -255,6 +259,36 @@ public class BePlatformController {
 			LoginInfoUtils.tenantAndSystemGrantCheck(request, loginInfoKey, businessFlowInfo.getBusinessFlow().getSystemId(), businessFlowInfo.getBusinessFlow().getTenantId());
 		}
 		return ResponseResult.success(platformService.saveBusinessFlowAllInfo(businessFlowInfo));
+	}
+
+	@RequestMapping("businessFlow/chatWithAi")
+	public SseEmitter chatWithAiBusinessFlow(@RequestParam String param, HttpServletRequest request) throws EngineException{
+		JsonObject paramJsonObject = JsonUtils.toJsonObject(param);
+		AiFlowComposerChatInfo chatInfo = new AiFlowComposerChatInfo();
+		chatInfo.setBusinessFlowId(JsonUtils.getString(paramJsonObject, "businessFlowId"));
+		chatInfo.setBusinessRequirement(JsonUtils.getString(paramJsonObject, "businessRequirement"));
+		chatInfo.setSystemId(JsonUtils.getString(paramJsonObject, "systemId"));
+		chatInfo.setTenantId(JsonUtils.getString(paramJsonObject, "tenantId"));
+		LoginInfoUtils.tenantAndSystemGrantCheck(request, loginInfoKey, chatInfo.getSystemId(), chatInfo.getTenantId());
+		SseEmitter sseEmitter = new CustomizedSseEmitter(600000l); // 延长超时时间
+		new Thread() {
+			@Override
+			public void run() {
+				try {
+					platformService.chatWithAiBusinessFlow(chatInfo, sseEmitter);
+				} catch (EngineException e) {
+					logger.error("chat with ai failed!", e);
+				}
+			}
+		}.start();
+		
+		return sseEmitter;
+	}
+
+	@RequestMapping("businessFlow/genBusinessFlowInfoWithAi")
+	public ResponseResult<BusinessFlowInfo> genBusinessFlowInfoWithAi(@RequestBody AiGenBusinessFlowInfo aiGenInfo, HttpServletRequest request) throws EngineException{
+		LoginInfoUtils.tenantAndSystemGrantCheck(request, loginInfoKey, aiGenInfo.getSystemId(), aiGenInfo.getTenantId());
+		return ResponseResult.success(platformService.genBusinessFlowInfoWithAi(aiGenInfo));
 	}
 	
 	@RequestMapping("businessFlowNode/add")

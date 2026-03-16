@@ -24,6 +24,7 @@ public abstract class BusinessFlowTemplate {
 	private static Logger logger = LoggerFactory.getLogger(BusinessFlowTemplate.class);
 	//用于存放节点的具体业务实现类实例
 	private static Map<String, Node> nodeMap = new HashMap<>();
+	private static String nodeListStr = null;
 	
 	/**
 	 * 用于初始化BusinessFlowTemplate类
@@ -35,6 +36,7 @@ public abstract class BusinessFlowTemplate {
 		}
 		//加载FlowNode并创建Node实例
 		List<FlowNode> flowNodes = initService.listFlowNodes();
+		String nodesString = "";
 		if(!CollectionUtils.isEmpty(flowNodes)) {
 			Node node = null;
 			for(FlowNode flowNode : flowNodes) {
@@ -43,6 +45,11 @@ public abstract class BusinessFlowTemplate {
 					continue;
 				}
 				if(!StringUtils.isBlank(flowNode.getNodeClass())) {
+					String name = flowNode.getName();
+					if(name.indexOf("-") >=0) {
+						name = name.substring(name.indexOf("-") + 1);
+					}
+					nodesString += "\"" + flowNode.getId() + "\", \"" + name + "\", \"" + flowNode.getDescription() + "\" \n";
 					try {
 						node = (Node)Class.forName(flowNode.getNodeClass()).getDeclaredConstructor().newInstance();
 						node.setFlowNode(flowNode);
@@ -57,6 +64,7 @@ public abstract class BusinessFlowTemplate {
 		}else {
 			logger.error("No invalid FlowNode is found!");
 		}
+		nodeListStr = nodesString;
 		if (logger.isDebugEnabled()) {
 			logger.debug("init method end...");
 		}
@@ -69,6 +77,14 @@ public abstract class BusinessFlowTemplate {
 	 */
 	public static Node getNode(String flowNodeId) {
 		return nodeMap.get(flowNodeId);
+	}
+
+	/**
+	 * 获取节点列表字符串
+	 * @return
+	 */
+	public static String getNodeListStr() {
+		return nodeListStr;
 	}
 	
 	/**

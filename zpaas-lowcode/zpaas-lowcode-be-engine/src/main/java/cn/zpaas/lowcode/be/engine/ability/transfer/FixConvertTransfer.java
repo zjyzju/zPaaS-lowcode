@@ -16,6 +16,11 @@ public class FixConvertTransfer extends Transfer {
     
     private static final String CONVERT_DICT_KEY = "convertDict";// 转换字典
     
+    /**
+     * {
+     * "convertDict":{"1":"有效","0":"无效"}
+     * }
+     */
     @Override
     public Object transfer(Attribute fromAttr, Object fromAttrValue, Attribute toAttr, JsonObject transferCfg,
             JsonObject fromObject) throws EngineException {

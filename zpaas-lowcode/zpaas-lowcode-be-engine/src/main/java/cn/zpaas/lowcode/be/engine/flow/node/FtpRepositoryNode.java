@@ -46,7 +46,48 @@ public class FtpRepositoryNode extends Node {
 	private static final String SRC_FILE_SOURCE_U = "U"; // 上传文件
 	private static final String SRC_FILE_SOURCE_P = "P"; // 过程数据
 
-	
+	/*
+	 * {
+	 * ftpType：ftp类型，包括ftp和sftp
+	 * ftpResourceId：ftp资源标识
+	 * ftpOperation：ftp操作，包括U：上传；D：下载。当ftp操作为（U：上传）时，源文件名为业务流上下文中过程文件Map的Key，
+	 * 目标文件名为ftp/sftp服务器端的文件路径；
+	 * 当为（D：下载）时，源文件为ftp/sftp服务器端的文件路径，目标文件名无效。
+	 * 当为（R：删除）时，源文件为ftp/sftp服务器端的文件路径，目标文件名无效。
+	 * 
+	 * srcFileSource：源文件的来源，包括P（过程数据：过程数据中的文件对象）；U（上传文件：上传的Multipart文件对象）
+	 * 
+	 * srcFileNameSource：源文件名的来源，包括：I（输入参数）；P（过程数据）；D（领域对象）；N（预处理产生的nodeParams）；F（
+	 * 固定值）
+	 * srcFileNameKey：源文件名的Key值，源对象类型为I（输入参数）时，表示输入参数中的Key；
+	 * 为D（领域对象）时，表示领域对象在context.attributedObjectMap或context.attributedObjectsMap（
+	 * 根据isListType的值进行区分）中的key值；
+	 * 为P（过程数据）时，该值表示context.values中的key值，
+	 * 当为N（预处理产生的nodeParams）时，Key值无效；
+	 * 当为F（固定值）时，为具体的值
+	 * srcFileNameAttr：当源文件名是指定对象的某个属性时有效，通过该字段指定对应属性的code，支持JSONPath，
+	 * 源对象实例属性的值只能是字符串或数字。
+	 * srcFileIsList：源文件是否是列表类型，true/false。
+	 * 
+	 * dstFileNameSource：目标文件名的来源，包括：I（输入参数）；P（过程数据）；D（领域对象）；N（预处理产生的nodeParams）；F（
+	 * 固定值）
+	 * dstFileNameKey：目标文件名的Key值，源对象类型
+	 * 为I（输入参数）时，表示输入参数中的Key；
+	 * 为D（领域对象）时，表示领域对象在context.attributedObjectMap或context.attributedObjectsMap（
+	 * 根据srcFileIsList的值进行区分）中的key值；
+	 * 为P（过程数据）时，该值表示context.values中的key值，当为N（预处理产生的nodeParams）时，Key值无效；
+	 * 当为F（固定值）时，为具体的值
+	 * dstFileNameAttr：当目标文件名是指定对象的某个属性时有效，通过该字段指定对应属性的code，支持JSONPath，
+	 * 源对象实例属性的值只能是字符串或数字。
+	 * 
+	 * isListResult：节点执行结果是否是List类型，包括：true/false
+	 * nodeResultType：节点执行结果对象的类型，包括：JDK原生对象（J）、领域对象（D）、值传递对象（R）
+	 * nodeResultClass：节点执行结果对象的实现类，当属性类型为JDK原生对象（J）时，对应的JDK原生对象类型，完整的类名表示；
+	 * 为领域对象（DO）或值传递对象（RO）时有效，对应领域对象或值传递对象的主键，为空时，表示使用默认结构
+	 * }
+	 * 
+	 * }
+	 */
 	/**
 	 * 该节点类型的业务处理方法，参数为业务流节点信息和业务流上下文对象
 	 * 

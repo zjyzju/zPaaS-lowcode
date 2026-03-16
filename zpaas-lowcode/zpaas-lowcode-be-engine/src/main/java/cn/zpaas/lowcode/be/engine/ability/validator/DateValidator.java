@@ -39,7 +39,16 @@ public class DateValidator extends Validator {
 	 * @param attrValue 属性值
 	 * @param srcObject 校验对象（完整的对象）
 	 * @return 校验结果
-	*/
+	 * 返回值的格式为：
+	 *  {
+	 *		status：校验是否通过，true/false
+	 *  	messages: [
+	 *  	{
+	 *  		message：提示信息，主要是未通过情况下的错误信息
+	 *  		errorCode：错误码
+	 *  	}]
+	 *  }
+	 */
 	@Override
 	protected JsonObject validateImpl(ValidateRule validateRule, Object attrValue, JsonObject srcObject, JsonObject parentObject)
 			throws EngineException {
@@ -117,6 +126,12 @@ public class DateValidator extends Validator {
 				}
 				
 				if(VALIDATE_TYPE_RELATIVE_RANGE.equals(relativeDate)) {//相对日期范围
+					/*
+					 	当validateType为relativeRange时：
+						validateValue1配置起始时间偏移，如+5D，-12H，其中第一位正负号表示相对relativeDate往前推还是往后推；
+							中间的数字表示数量；最后一位字母表示时间单位，取值有Y：年，M：月，D：日，W：周，H：小时，Mi：分，S：秒
+						validateValue2配置终止时间偏移，配置方式同上	
+					 */
 					if(validateValue1 != null && validateValue1.trim().length() > 0) {
 						Date startDate = TimeOffset.calculateDate(compareDate, TimeOffset.parseDuration(validateValue1));
 						if ((originDate).compareTo(startDate) < 0) {
@@ -132,6 +147,12 @@ public class DateValidator extends Validator {
 						}
 					}
 				}else if(VALIDATE_TYPE_NUMBER_DATE.equals(relativeDate)) {//相对日期所在的第几个时间
+					/*
+					 	当validateType为numberDate时：
+						validateValue1配置时间的范围，取值有Y：年，M：月，D：日，W：周，H：小时
+						validateValue2配置第几个时间，如+1D，-12H，其中第一位正负号表示正序还是倒序的第几个时间；
+						中间的数字表示数量；最后一位字母表示时间单位，取值有M：月，D：日，W：周，H：小时，Mi：分
+					 */
 					isPass = TimeOffset.isOffsetDateOf(originDate, validateValue1, TimeOffset.parseDuration(validateValue2));
 					
 				}else {

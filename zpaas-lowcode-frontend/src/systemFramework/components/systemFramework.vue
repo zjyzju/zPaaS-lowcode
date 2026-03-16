@@ -135,7 +135,7 @@ export default {
             	window.location = "/login.html";
             });
     	},
-    	exit() {
+        exit() {
     		axiosClient.post("/lcdp-proxy/lowcode/service/sm/logout", {}).then((response) => {
     			window.location = "/login.html";
             }).catch((e) => {
@@ -148,7 +148,7 @@ export default {
             this.currentMenu = right;
             this.url = this.currentMenu.url;
             //console.log("change menu to : ", this.currentMenu);
-            this.reoladSubPage();
+            //this.reoladSubPage();
         },
 
         reoladSubPage() {
@@ -174,11 +174,11 @@ export default {
             this.showPasswordChangePage = true;
         },
         handleDataChange(e){
-            console.log('来自子应用的数据：', e.detail.data)
+            //console.log('来自子应用的数据：', e.detail.data)
         },
 
         sendChildData(){
-            micro.setData('app1', {type: '新的数据'})
+            //micro.setData('app1', {type: '新的数据'})
         },
 
         created(e){

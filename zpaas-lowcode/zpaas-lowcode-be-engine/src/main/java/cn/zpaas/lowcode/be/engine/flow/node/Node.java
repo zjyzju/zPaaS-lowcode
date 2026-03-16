@@ -176,7 +176,7 @@ public abstract class Node {
 				valueObject = JsonUtils.eval(valueObject, objectAttr);
 			}
 		} else if (OBJECT_INSTANCE_SOURCE_F.equals(objectSource)) {// 固定值
-			if (NULL.equals(objectKey)) {//nul
+			if (NULL.equals(objectKey)) {//null
 				valueObject = null;
 			} else if (NOW_DATE.equals(objectKey)) {//当前时间
 				valueObject = DateUtils.dateTimeString(new Date());
@@ -303,7 +303,26 @@ public abstract class Node {
 		}
 	}
 
-	
+	/*
+	 * 节点预处理信息配置（对应be_business_flow_node.node_pre_cfg字段）的配置格式要求如下：
+	 * {
+	 * toObjectType：目标参数存放的容器类型，包括：Map和JSON，
+	 * paramsRule:[ {
+	 * isListType：源对象是否是列表类型，true/false，默认为false
+	 * fromObjectType：源对象的类型，包括：I（输入参数）；P（过程数据）；D（领域对象）
+	 * fromObjectKey：源对象类型为I（输入参数）时，该字段无效；为D（领域对象）时，表示领域对象在context.
+	 * attributedObjectMap中的key值； 为P（过程数据）时，该值表示context.values中的key值
+	 * attrMappings：[
+	 * {
+	 * fromAttrPath：源对象属性对应的json path ,如果是“/”，则表示源对象本身
+	 * toObjectAttr：目标参数的属性名，也需要支持json path格式
+	 * } ……
+	 * ]
+	 * } …… ]
+	 * }
+	 * 源对象以及属性映射的配置允许有多套，数据允许来处多个不同的源对象，但获取到的参数数据都统一存放到同一的容器对象中，容器对象使用Key（“
+	 * nodeParams”） 存放到context.values中。
+	 */
 	/**
 	 * 该节点类型的预处理方法，参数为业务流节点信息和业务流上下文对象
 	 * 
@@ -430,7 +449,13 @@ public abstract class Node {
 
 	}
 
-	
+	/*
+	 * 节点信息配置： { isListResult：节点执行结果是否是List类型，包括：true/false
+	 * nodeResultType：节点执行结果对象的类型，包括：JDK原生对象（J）、领域对象（D）、值传递对象（R）
+	 * nodeResultClass：节点执行结果对象的实现类，当属性类型为JDK原生对象（J）时，对应的JDK原生对象类型，完整的类名表示；为领域对象（DO）
+	 * 或值传递对象（RO）时有效，对应领域对象或值传递对象的主键，为空时，表示使用默认结构 }
+	 * 
+	 */
 	/**
 	 * 该节点类型的业务处理方法，参数为业务流节点信息和业务流上下文对象
 	 * 
@@ -439,7 +464,30 @@ public abstract class Node {
 	 */
 	public abstract void process(BusinessFlowNode businessFlowNode, BusinessFlowContext context) throws EngineException;
 
-	
+	/*
+	 * 节点后处理信息配置： { asInProcessData：节点的执行结果是否保存到过程数据中，包括：true/false
+	 * inProcessDataType：输出到过程数据对象的类型，包括：JDK原生对象（J）、领域对象（D）、值传递对象（R）
+	 * inProcessDataClass：输出到过程数据对象的实现类，当属性类型为JDK原生对象（J）时，对应的JDK原生对象类型，完整的类名表示；
+	 * 为领域对象（DO）或值传递对象（RO）时有效，对应领域对象或值传递对象的主键，为空时，表示使用原结构输出
+	 * dataMappingId_inProcessData：从原结果对象到过程数据对象的数据转换映射标识，对应be_data_mapping.id字段
+	 * subDataMappings_inProcessData:{如果存在多级复制 {fromAttributeCode, dataMappingId},
+	 * ..., {fromAttributeCode_sub, subDataMappings} }
+	 * inProcessDataKey：过程数据对象存放到context.values对象中，该字段配置使用的Key值
+	 * 
+	 * asDomainObjectValue: 节点的执行结果输出到领域对象中，只针对领域对象的方法调用时有效
+	 * domainObjectValueKey: 领域对象保存的Key值
+	 * domainObjectId: 领域对象标识
+	 * dataMappingId_domainObjectValue：从原结果对象到领域对象的数据转换映射标识，对应be_data_mapping.id字段
+	 * subDataMappings_domainObjectValue:{如果存在多级复制 {fromAttributeCode,
+	 * dataMappingId}, ..., {fromAttributeCode_sub, subDataMappings} }
+	 * 
+	 * asBusinessProcessResult：节点的执行结果是否作为业务流的输出结果，包括：true/false
+	 * dataMappingId_Result：从原结果对象到结果数据对象的数据转换映射标识，对应be_data_mapping.id字段。
+	 * subDataMappings_Result:{如果存在多级复制 {fromAttributeCode, dataMappingId}, ...,
+	 * {fromAttributeCode_sub, subDataMappings} }
+	 * 如果当前业务流是子业务流，则结果数据对象的类型在父节点的节点配置信息中定义（节点的执行结果对象）；
+	 * 如果当前业务流是主业务流，则结果数据对象的类型定义就是方法输出参数的类型定义 }
+	 */
 	/**
 	 * 该节点类型的后置处理方法，参数为业务流节点信息和业务流上下文对象
 	 * 

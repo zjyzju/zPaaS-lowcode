@@ -23,7 +23,13 @@ public class SqlConvertTransfer extends Transfer {
     private static final String CONVERT_SQL_KEY = "convertSql";// 转换Sql
     private static final String DATASOURCE_KEY = "datasource";// 转换Sql使用的数据源
 
-    
+    /**
+     * {
+     * "convertSql":"SELECT CONCAT(service_attr_name, '(', attr_code, ')') FROM
+     * pm.pcc_service_attr WHERE service_attr_id = ?",
+     * "datasource":""//可空，为空时使用默认数据源
+     * }
+     */
     @Override
     public Object transfer(Attribute fromAttr, Object fromAttrValue, Attribute toAttr, JsonObject transferCfg,
             JsonObject fromObject) throws EngineException {

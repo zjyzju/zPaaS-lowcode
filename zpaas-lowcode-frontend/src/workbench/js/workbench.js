@@ -2,13 +2,14 @@
 import { createApp } from 'vue'
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
-import {Wallet, DataBoard, Postcard, DocumentCopy, Guide, Notification, Service, Folder, TrendCharts, List, Timer, Star, Edit, ArrowLeft, ArrowRight, ArrowDown, Message, Lock, Location, DataAnalysis, Document,Setting, Menu,CoffeeCup, Fold, Management, Expand, RefreshRight, CircleCheckFilled,Grid, Close, Check, Histogram, Download, Plus, Coin, MessageBox, Tools, OfficeBuilding, ChatDotRound, Connection, Delete, Search, Collection, ZoomIn, LocationFilled} from '@element-plus/icons-vue'
+import {ArrowUpBold, Wallet, DataBoard, Postcard, DocumentCopy, Guide, Notification, Service, Folder, TrendCharts, List, Timer, Star, Edit, ArrowLeft, ArrowRight, ArrowDown, Message, Lock, Location, DataAnalysis, Document,Setting, Menu,CoffeeCup, Fold, Management, Expand, RefreshRight, CircleCheckFilled,Grid, Close, Check, Histogram, Download, Plus, Coin, MessageBox, Tools, OfficeBuilding, ChatDotRound, Connection, Delete, Search, Collection, ZoomIn, LocationFilled} from '@element-plus/icons-vue'
 import App from '../components/workbench.vue'
 import router from '@/router/workbench'
 
 const app = createApp(App)
 app.use(ElementPlus)
 app.use(router)
+app.component('ArrowUpBold', ArrowUpBold)
 app.component('Wallet', Wallet)
 app.component('DataBoard', DataBoard)
 app.component('Postcard', Postcard)

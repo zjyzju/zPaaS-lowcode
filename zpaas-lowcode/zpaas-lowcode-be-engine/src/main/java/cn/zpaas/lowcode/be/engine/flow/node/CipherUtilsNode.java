@@ -35,7 +35,51 @@ public class CipherUtilsNode extends Node {
 	private static final String OPERATION_TYPE_ENCRYPT = "E"; // 加密
 	private static final String OPERATION_TYPE_DECRYPT = "D"; // 解密
 
+	/*
+	 {
+		cipherAlgorithmType: 算法类型，包括DES：DES，DESede：DESede，AES：AES，SM4:SM4，RSA：RSA，SM2:SM2 。
+		cipherAlgorithm: 算法，包括
+DES：DES，
+	DES/ECB/PKCS5Padding：DES/ECB/PKCS5Padding
+	DES/ECB/NoPadding：DES/ECB/NoPadding
+	DES/CBC/PKCS5Padding：DES/CBC/PKCS5Padding
+	DES/CBC/NoPadding：DES/CBC/NoPadding
 	
+DESede：DESede，
+	DESede/ECB/PKCS5Padding：DESede/ECB/PKCS5Padding
+	DESede/ECB/NoPadding：DESede/ECB/NoPadding
+	DESede/CBC/PKCS5Padding：DESede/CBC/PKCS5Padding
+	DESede/CBC/NoPadding：DESede/CBC/NoPadding
+
+AES：AES，
+	AES/ECB/PKCS5Padding：AES/ECB/PKCS5Padding
+	AES/ECB/NoPadding：AES/ECB/NoPadding
+	AES/CBC/PKCS5Padding：AES/CBC/PKCS5Padding
+	AES/CBC/NoPadding：AES/CBC/NoPadding
+
+SM4:SM4，
+	SM4/ECB/PKCS5Padding：SM4/ECB/PKCS5Padding
+	SM4/ECB/NoPadding：SM4/ECB/NoPadding
+	SM4/CBC/PKCS5Padding：SM4/CBC/PKCS5Padding
+	SM4/CBC/NoPadding：SM4/CBC/NoPadding
+
+RSA：RSA，
+	RSA/ECB/PKCS1Padding：RSA/ECB/PKCS1Padding
+
+SM2:SM2
+	SM2:SM2
+		securityKeyResourceId：安全密钥资源标识，根据算法从安全密钥资源表中加载对应的安全密钥资源。
+		operationType：操作类型，包括E：加密，D：解密。
+		
+		srcTextSource：源文本来源，包括：I（输入参数）；P（过程数据）；D（领域对象）；N（预处理产生的nodeParams）；F（固定值）
+		srcTextKey：源文本的Key值，源对象类型为I（输入参数）时，表示输入参数中的Key；为D（领域对象）时，表示领域对象在context.attributedObjectMap或context.attributedObjectsMap（根据isListType的值进行区分）中的key值；为P（过程数据）时，该值表示context.values中的key值，当为N（预处理产生的nodeParams）时，Key值无效；当为F（固定值）时，为具体的值
+		srcTextAttr：当源文本是指定对象的某个属性时有效，通过该字段指定对应属性的code，支持JSONPath，源对象实例属性的值只能是字符串或数字，当以“$”开头时（先处理前面等于“$”的情况，再考虑以“$”开头的情况），表示该属性的值是动态取值的情况，只支持从过程数据中获取，如“$user”,表示从过程数据中获取user属性的对象，“$user.id”,表示取过程数据中user属性对象id属性的值，该情况主要支持目标对象是Map的情况（Map的key值是动态确定的）。
+
+		isListResult：节点执行结果是否是List类型，包括：true/false
+		nodeResultType：节点执行结果对象的类型，包括：JDK原生对象（J）、领域对象（D）、值传递对象（R）
+		nodeResultClass：节点执行结果对象的实现类，当属性类型为JDK原生对象（J）时，对应的JDK原生对象类型，完整的类名表示；为领域对象（DO）或值传递对象（RO）时有效，对应领域对象或值传递对象的主键，为空时，表示使用默认结构
+	}
+	 */
 	/**
 	 * 该节点类型的业务处理方法，参数为业务流节点信息和业务流上下文对象
 	 * 

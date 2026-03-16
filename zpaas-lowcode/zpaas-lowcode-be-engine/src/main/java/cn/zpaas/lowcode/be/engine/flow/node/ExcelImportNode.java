@@ -51,7 +51,31 @@ public class ExcelImportNode extends Node {
 	private static final String EXCEL_FILE_SOURCE_U = "U"; //（过程数据：过程数据中的文件对象）
 	private static final String EXCEL_FILE_SOURCE_P = "P"; //（上传文件：上传的Multipart文件对象）
 	
-	
+	/*
+	 {
+	 	excelFileSource：excel文件的来源，包括P（过程数据：过程数据中的文件对象）；U（上传文件：上传的Multipart文件对象）
+	 
+		excelFileNameSource：excel文件名的来源，包括：I（输入参数）；P（过程数据）；D（领域对象）；N（预处理产生的nodeParams）；F（固定值）
+		excelFileNameKey：excel文件名的Key值，源对象类型为I（输入参数）时，表示输入参数中的Key；为D（领域对象）时，表示领域对象在context.attributedObjectMap或context.attributedObjectsMap（根据isListType的值进行区分）中的key值；为P（过程数据）时，该值表示context.values中的key值，当为N（预处理产生的nodeParams）时，Key值无效；当为F（固定值）时，为具体的值
+		excelFileNameAttr：当excel文件名是指定对象的某个属性时有效，通过该字段指定对应属性的code，支持JSONPath，源对象实例属性的值只能是字符串或数字。
+
+		sheetIndex：待处理的sheet页号，从0开始
+		processMode：处理模式，F：流式处理；B：批量处理。
+		startRowIndex：开始处理的行数，从0开始，主要用于忽略表头对应的行
+		columnMappings：[//列映射，excel列号-》加载入内存后的属性名
+			{
+				columnIndex: excel列序号，
+				mappingName: 映射属性名
+			},
+		]
+
+		subBusinessFlowId：流式处理子业务流标识
+
+		isListResult：节点执行结果是否是List类型，包括：true/false
+		nodeResultType：节点执行结果对象的类型，包括：JDK原生对象（J）、领域对象（D）、值传递对象（R）
+		nodeResultClass：节点执行结果对象的实现类，当属性类型为JDK原生对象（J）时，对应的JDK原生对象类型，完整的类名表示；为领域对象（DO）或值传递对象（RO）时有效，对应领域对象或值传递对象的主键，为空时，表示使用默认结构
+	}
+	 */
 	/**
 	 * 该节点类型的业务处理方法，参数为业务流节点信息和业务流上下文对象
 	 * 

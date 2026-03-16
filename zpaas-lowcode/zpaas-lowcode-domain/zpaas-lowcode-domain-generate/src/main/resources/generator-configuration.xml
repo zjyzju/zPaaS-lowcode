@@ -1,0 +1,454 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+    <context id="MySQLTables" targetRuntime="MyBatis3" defaultModelType="flat">
+
+        <!-- 公共设置 -->
+        <commentGenerator>
+            <!-- 是否取消自动生成时的注释 -->
+            <property name="suppressAllComments" value="true"/>
+            <!-- 是否取消在注释中加上时间 -->
+            <property name="suppressDate" value="true"/>
+        </commentGenerator>
+
+        <!-- 链接数据库的配置  MySQL8之前的驱动com.mysql.jdbc.Driver，新的驱动com.mysql.cj.jdbc.Driver，并且要加时区-->
+        <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver"
+                        connectionURL="jdbc:mysql://[fd15:4ba5:5a2b:1009::10]:3306/zpaas_lowcode_revise?useUnicode=true&amp;characterEncoding=utf-8&amp;tinyInt1isBit=true&amp;allowMultiQueries=true"
+                        userId="linux" password="linux"/>
+
+        <!-- 关于生成实体类的设置 -->
+        <!-- targetPackage 生成代码的目标目录 -->
+        <!-- targetProject 目录所属位置 -->
+        <javaModelGenerator targetPackage="cn.zpaas.lowcode.domain.eo" targetProject="src/main/java">
+            <!-- 在targetPackge的基础上根据schema再生成一层package 默认flase -->
+            <property name="enableSubPackages" value="true"/>
+            <!-- 是否在get方法中 对String类型的字段做空的判断 -->
+            <property name="trimStrings" value="true"/>
+            <!-- 是否生成一个包含所有字段的构造器 -->
+            <property name="constructorBased" value="false"/>
+            <!-- 是否创建一个不可变类-->
+            <property name="immutable" value="false"/>
+        </javaModelGenerator>
+
+        <!--关于生成映射文件的设置-->
+        <sqlMapGenerator targetPackage="cn.zpaas.lowcode.domain.mapper" targetProject="src/main/resources">
+            <!--同上-->
+            <property name="enableSubPackages" value="true"/>
+        </sqlMapGenerator>
+
+        <!--关于生成dao层的设置-->
+        <javaClientGenerator type="mapper" targetPackage="cn.zpaas.lowcode.domain.mapper" targetProject="src/main/java">
+            <!--同上-->
+            <property name="enableSubPackages" value="true"/>
+        </javaClientGenerator>
+
+        <!--需要生成的代码对应的表名 tableName 代表你的数据库表，domainObjectName 映射后的对象名称-->
+        <table tableName="pub_business_system" schema="" catalog="zpaas_lowcode_revise" domainObjectName="BusinessSystem"
+               enableCountByExample="true" enableUpdateByExample="true"
+               enableDeleteByExample="true" enableSelectByExample="true"
+               selectByExampleQueryId="true">
+               <property name="ignoreQualifiersAtRuntime" value="true"></property>
+        </table>
+        <table tableName="pub_business_domain" schema="" catalog="zpaas_lowcode_revise" domainObjectName="BusinessDomain"
+               enableCountByExample="true" enableUpdateByExample="true"
+               enableDeleteByExample="true" enableSelectByExample="true"
+               selectByExampleQueryId="true">
+               <property name="ignoreQualifiersAtRuntime" value="true"></property>
+        </table>
+        <table tableName="pub_dict" schema="" catalog="zpaas_lowcode_revise" domainObjectName="Dict"
+               enableCountByExample="true" enableUpdateByExample="true"
+               enableDeleteByExample="true" enableSelectByExample="true"
+               selectByExampleQueryId="true">
+               <property name="ignoreQualifiersAtRuntime" value="true"></property>
+        </table>
+        <table tableName="be_service_object" schema="" catalog="zpaas_lowcode_revise" domainObjectName="ServiceObject"
+               enableCountByExample="true" enableUpdateByExample="true"
+               enableDeleteByExample="true" enableSelectByExample="true"
+               selectByExampleQueryId="true">
+               <property name="ignoreQualifiersAtRuntime" value="true"></property>
+        </table>
+        <table tableName="be_domain_object" schema="" catalog="zpaas_lowcode_revise" domainObjectName="DomainObject"
+               enableCountByExample="true" enableUpdateByExample="true"
+               enableDeleteByExample="true" enableSelectByExample="true"
+               selectByExampleQueryId="true">
+               <property name="ignoreQualifiersAtRuntime" value="true"></property>
+        </table>
+        <table tableName="be_value_object" schema="" catalog="zpaas_lowcode_revise" domainObjectName="ValueObject"
+               enableCountByExample="true" enableUpdateByExample="true"
+               enableDeleteByExample="true" enableSelectByExample="true"
+               selectByExampleQueryId="true">
+               <property name="ignoreQualifiersAtRuntime" value="true"></property>
+        </table>
+        <table tableName="be_attribute" schema="" catalog="zpaas_lowcode_revise" domainObjectName="Attribute"
+               enableCountByExample="true" enableUpdateByExample="true"
+               enableDeleteByExample="true" enableSelectByExample="true"
+               selectByExampleQueryId="true">
+               <property name="ignoreQualifiersAtRuntime" value="true"></property>
+        </table>
+        <table tableName="be_operation" schema="" catalog="zpaas_lowcode_revise" domainObjectName="Operation"
+               enableCountByExample="true" enableUpdateByExample="true"
+               enableDeleteByExample="true" enableSelectByExample="true"
+               selectByExampleQueryId="true">
+               <property name="ignoreQualifiersAtRuntime" value="true"></property>
+        </table>
+        <table tableName="be_parameter" schema="" catalog="zpaas_lowcode_revise" domainObjectName="Parameter"
+               enableCountByExample="true" enableUpdateByExample="true"
+               enableDeleteByExample="true" enableSelectByExample="true"
+               selectByExampleQueryId="true">
+               <property name="ignoreQualifiersAtRuntime" value="true"></property>
+        </table>
+        <table tableName="be_business_flow" schema="" catalog="zpaas_lowcode_revise" domainObjectName="BusinessFlow"
+               enableCountByExample="true" enableUpdateByExample="true"
+               enableDeleteByExample="true" enableSelectByExample="true"
+               selectByExampleQueryId="true">
+               <property name="ignoreQualifiersAtRuntime" value="true"></property>
+        </table>
+        <table tableName="be_business_flow_node" schema="" catalog="zpaas_lowcode_revise" domainObjectName="BusinessFlowNode"
+               enableCountByExample="true" enableUpdateByExample="true"
+               enableDeleteByExample="true" enableSelectByExample="true"
+               selectByExampleQueryId="true">
+               <property name="ignoreQualifiersAtRuntime" value="true"></property>
+        </table>
+        <table tableName="be_flow_node" schema="" catalog="zpaas_lowcode_revise" domainObjectName="FlowNode"
+               enableCountByExample="true" enableUpdateByExample="true"
+               enableDeleteByExample="true" enableSelectByExample="true"
+               selectByExampleQueryId="true">
+               <property name="ignoreQualifiersAtRuntime" value="true"></property>
+        </table>
+        <table tableName="be_exposed_service" schema="" catalog="zpaas_lowcode_revise" domainObjectName="ExposedService"
+               enableCountByExample="true" enableUpdateByExample="true"
+               enableDeleteByExample="true" enableSelectByExample="true"
+               selectByExampleQueryId="true">
+               <property name="ignoreQualifiersAtRuntime" value="true"></property>
+        </table>
+        <table tableName="be_sql_management" schema="" catalog="zpaas_lowcode_revise" domainObjectName="SqlManagement"
+               enableCountByExample="true" enableUpdateByExample="true"
+               enableDeleteByExample="true" enableSelectByExample="true"
+               selectByExampleQueryId="true">
+               <property name="ignoreQualifiersAtRuntime" value="true"></property>
+        </table>
+        <table tableName="be_db_schema" schema="" catalog="zpaas_lowcode_revise" domainObjectName="DbSchema"
+               enableCountByExample="true" enableUpdateByExample="true"
+               enableDeleteByExample="true" enableSelectByExample="true"
+               selectByExampleQueryId="true">
+               <property name="ignoreQualifiersAtRuntime" value="true"></property>
+        </table>
+        <table tableName="be_db_table" schema="" catalog="zpaas_lowcode_revise" domainObjectName="DbTable"
+               enableCountByExample="true" enableUpdateByExample="true"
+               enableDeleteByExample="true" enableSelectByExample="true"
+               selectByExampleQueryId="true">
+               <property name="ignoreQualifiersAtRuntime" value="true"></property>
+        </table>
+        <table tableName="be_db_column" schema="" catalog="zpaas_lowcode_revise" domainObjectName="DbColumn"
+               enableCountByExample="true" enableUpdateByExample="true"
+               enableDeleteByExample="true" enableSelectByExample="true"
+               selectByExampleQueryId="true">
+               <property name="ignoreQualifiersAtRuntime" value="true"></property>
+        </table>
+        <table tableName="be_object_relation_mapping" schema="" catalog="zpaas_lowcode_revise" domainObjectName="ObjectRelationMapping"
+               enableCountByExample="true" enableUpdateByExample="true"
+               enableDeleteByExample="true" enableSelectByExample="true"
+               selectByExampleQueryId="true">
+               <property name="ignoreQualifiersAtRuntime" value="true"></property>
+        </table>
+        <table tableName="be_column_mapping" schema="" catalog="zpaas_lowcode_revise" domainObjectName="ColumnMapping"
+               enableCountByExample="true" enableUpdateByExample="true"
+               enableDeleteByExample="true" enableSelectByExample="true"
+               selectByExampleQueryId="true">
+               <property name="ignoreQualifiersAtRuntime" value="true"></property>
+        </table>
+        <table tableName="be_data_mapping" schema="" catalog="zpaas_lowcode_revise" domainObjectName="DataMapping"
+               enableCountByExample="true" enableUpdateByExample="true"
+               enableDeleteByExample="true" enableSelectByExample="true"
+               selectByExampleQueryId="true">
+               <property name="ignoreQualifiersAtRuntime" value="true"></property>
+        </table>
+        <table tableName="be_attribute_mapping" schema="" catalog="zpaas_lowcode_revise" domainObjectName="AttributeMapping"
+               enableCountByExample="true" enableUpdateByExample="true"
+               enableDeleteByExample="true" enableSelectByExample="true"
+               selectByExampleQueryId="true">
+               <property name="ignoreQualifiersAtRuntime" value="true"></property>
+        </table>
+        <table tableName="be_validate_rule_group" schema="" catalog="zpaas_lowcode_revise" domainObjectName="ValidateRuleGroup"
+               enableCountByExample="true" enableUpdateByExample="true"
+               enableDeleteByExample="true" enableSelectByExample="true"
+               selectByExampleQueryId="true">
+               <property name="ignoreQualifiersAtRuntime" value="true"></property>
+        </table>
+        <table tableName="be_validate_rule" schema="" catalog="zpaas_lowcode_revise" domainObjectName="ValidateRule"
+               enableCountByExample="true" enableUpdateByExample="true"
+               enableDeleteByExample="true" enableSelectByExample="true"
+               selectByExampleQueryId="true">
+               <property name="ignoreQualifiersAtRuntime" value="true"></property>
+        </table>
+        <table tableName="be_validate_rule_type" schema="" catalog="zpaas_lowcode_revise" domainObjectName="ValidateRuleType"
+               enableCountByExample="true" enableUpdateByExample="true"
+               enableDeleteByExample="true" enableSelectByExample="true"
+               selectByExampleQueryId="true">
+               <property name="ignoreQualifiersAtRuntime" value="true"></property>
+        </table>
+        <table tableName="be_business_flow_bpmn_file" schema="" catalog="zpaas_lowcode_revise" domainObjectName="BusinessFlowBpmnFile"
+               enableCountByExample="true" enableUpdateByExample="true"
+               enableDeleteByExample="true" enableSelectByExample="true"
+               selectByExampleQueryId="true">
+               <property name="ignoreQualifiersAtRuntime" value="true"></property>
+        </table>
+        <table tableName="be_server_resource" schema="" catalog="zpaas_lowcode_revise" domainObjectName="ServerResource"
+               enableCountByExample="true" enableUpdateByExample="true"
+               enableDeleteByExample="true" enableSelectByExample="true"
+               selectByExampleQueryId="true">
+               <property name="ignoreQualifiersAtRuntime" value="true"></property>
+        </table>
+        <table tableName="be_business_system_auth" schema="" catalog="zpaas_lowcode_revise" domainObjectName="BusinessSystemAuth"
+               enableCountByExample="true" enableUpdateByExample="true"
+               enableDeleteByExample="true" enableSelectByExample="true"
+               selectByExampleQueryId="true">
+               <property name="ignoreQualifiersAtRuntime" value="true"></property>
+        </table>
+        <table tableName="be_business_system_auto_load" schema="" catalog="zpaas_lowcode_revise" domainObjectName="BusinessSystemAutoLoad"
+               enableCountByExample="true" enableUpdateByExample="true"
+               enableDeleteByExample="true" enableSelectByExample="true"
+               selectByExampleQueryId="true">
+               <property name="ignoreQualifiersAtRuntime" value="true"></property>
+        </table>
+        <table tableName="be_thirdparty_system" schema="" catalog="zpaas_lowcode_revise" domainObjectName="ThirdpartySystem"
+               enableCountByExample="true" enableUpdateByExample="true"
+               enableDeleteByExample="true" enableSelectByExample="true"
+               selectByExampleQueryId="true">
+               <property name="ignoreQualifiersAtRuntime" value="true"></property>
+        </table>
+        <table tableName="be_workflow_process_resource" schema="" catalog="zpaas_lowcode_revise" domainObjectName="WorkflowProcessResource"
+               enableCountByExample="true" enableUpdateByExample="true"
+               enableDeleteByExample="true" enableSelectByExample="true"
+               selectByExampleQueryId="true">
+               <property name="ignoreQualifiersAtRuntime" value="true"></property>
+        </table>
+        <table tableName="be_message_consumer" schema="" catalog="zpaas_lowcode_revise" domainObjectName="MessageConsumer"
+               enableCountByExample="true" enableUpdateByExample="true"
+               enableDeleteByExample="true" enableSelectByExample="true"
+               selectByExampleQueryId="true">
+               <property name="ignoreQualifiersAtRuntime" value="true"></property>
+        </table>
+        <table tableName="be_data_transfer_method" schema="" catalog="zpaas_lowcode_revise" domainObjectName="DataTransferMethod"
+               enableCountByExample="true" enableUpdateByExample="true"
+               enableDeleteByExample="true" enableSelectByExample="true"
+               selectByExampleQueryId="true">
+               <property name="ignoreQualifiersAtRuntime" value="true"></property>
+        </table>
+        <table tableName="be_dynamic_mapping" schema="" catalog="zpaas_lowcode_revise" domainObjectName="DynamicMapping"
+               enableCountByExample="true" enableUpdateByExample="true"
+               enableDeleteByExample="true" enableSelectByExample="true"
+               selectByExampleQueryId="true">
+               <property name="ignoreQualifiersAtRuntime" value="true"></property>
+        </table>
+        <table tableName="be_dynamic_mapping_detail" schema="" catalog="zpaas_lowcode_revise" domainObjectName="DynamicMappingDetail"
+               enableCountByExample="true" enableUpdateByExample="true"
+               enableDeleteByExample="true" enableSelectByExample="true"
+               selectByExampleQueryId="true">
+               <property name="ignoreQualifiersAtRuntime" value="true"></property>
+        </table>
+        <table tableName="be_file_object_mapping" schema="" catalog="zpaas_lowcode_revise" domainObjectName="FileObjectMapping"
+               enableCountByExample="true" enableUpdateByExample="true"
+               enableDeleteByExample="true" enableSelectByExample="true"
+               selectByExampleQueryId="true">
+               <property name="ignoreQualifiersAtRuntime" value="true"></property>
+        </table>
+        <table tableName="be_attribute_column_mapping" schema="" catalog="zpaas_lowcode_revise" domainObjectName="AttributeColumnMapping"
+               enableCountByExample="true" enableUpdateByExample="true"
+               enableDeleteByExample="true" enableSelectByExample="true"
+               selectByExampleQueryId="true">
+               <property name="ignoreQualifiersAtRuntime" value="true"></property>
+        </table>
+        <table tableName="be_dict_resource" schema="" catalog="zpaas_lowcode_revise" domainObjectName="DictResource"
+               enableCountByExample="true" enableUpdateByExample="true"
+               enableDeleteByExample="true" enableSelectByExample="true"
+               selectByExampleQueryId="true">
+               <property name="ignoreQualifiersAtRuntime" value="true"></property>
+        </table>
+        
+        <table tableName="fe_func_template" schema="" catalog="zpaas_lowcode_revise" domainObjectName="FuncTemplate"
+               enableCountByExample="true" enableUpdateByExample="true"
+               enableDeleteByExample="true" enableSelectByExample="true"
+               selectByExampleQueryId="true">
+               <property name="ignoreQualifiersAtRuntime" value="true"></property>
+        </table>
+        <table tableName="fe_func_template_composite" schema="" catalog="zpaas_lowcode_revise" domainObjectName="FuncTemplateComposite"
+               enableCountByExample="true" enableUpdateByExample="true"
+               enableDeleteByExample="true" enableSelectByExample="true"
+               selectByExampleQueryId="true">
+               <property name="ignoreQualifiersAtRuntime" value="true"></property>
+        </table>
+        <table tableName="fe_func_template_region" schema="" catalog="zpaas_lowcode_revise" domainObjectName="FuncTemplateRegion"
+               enableCountByExample="true" enableUpdateByExample="true"
+               enableDeleteByExample="true" enableSelectByExample="true"
+               selectByExampleQueryId="true">
+               <property name="ignoreQualifiersAtRuntime" value="true"></property>
+        </table>
+        <table tableName="fe_func_template_region_operation" schema="" catalog="zpaas_lowcode_revise" domainObjectName="FuncTemplateRegionOperation"
+               enableCountByExample="true" enableUpdateByExample="true"
+               enableDeleteByExample="true" enableSelectByExample="true"
+               selectByExampleQueryId="true">
+               <property name="ignoreQualifiersAtRuntime" value="true"></property>
+        </table>
+        <table tableName="fe_func_define" schema="" catalog="zpaas_lowcode_revise" domainObjectName="FuncDefine"
+               enableCountByExample="true" enableUpdateByExample="true"
+               enableDeleteByExample="true" enableSelectByExample="true"
+               selectByExampleQueryId="true">
+               <property name="ignoreQualifiersAtRuntime" value="true"></property>
+        </table>
+        <table tableName="fe_func_region" schema="" catalog="zpaas_lowcode_revise" domainObjectName="FuncRegion"
+               enableCountByExample="true" enableUpdateByExample="true"
+               enableDeleteByExample="true" enableSelectByExample="true"
+               selectByExampleQueryId="true">
+               <property name="ignoreQualifiersAtRuntime" value="true"></property>
+        </table>
+        <table tableName="fe_func_region_operation" schema="" catalog="zpaas_lowcode_revise" domainObjectName="FuncRegionOperation"
+               enableCountByExample="true" enableUpdateByExample="true"
+               enableDeleteByExample="true" enableSelectByExample="true"
+               selectByExampleQueryId="true">
+               <property name="ignoreQualifiersAtRuntime" value="true"></property>
+        </table>
+        <table tableName="fe_func_object_assign" schema="" catalog="zpaas_lowcode_revise" domainObjectName="FuncObjectAssign"
+               enableCountByExample="true" enableUpdateByExample="true"
+               enableDeleteByExample="true" enableSelectByExample="true"
+               selectByExampleQueryId="true">
+               <property name="ignoreQualifiersAtRuntime" value="true"></property>
+        </table>
+        <table tableName="fe_func_region_attr_assign" schema="" catalog="zpaas_lowcode_revise" domainObjectName="FuncRegionAttrAssign"
+               enableCountByExample="true" enableUpdateByExample="true"
+               enableDeleteByExample="true" enableSelectByExample="true"
+               selectByExampleQueryId="true">
+               <property name="ignoreQualifiersAtRuntime" value="true"></property>
+        </table>
+        <table tableName="fe_func_object_attr_options" schema="" catalog="zpaas_lowcode_revise" domainObjectName="FuncObjectAttrOptions"
+               enableCountByExample="true" enableUpdateByExample="true"
+               enableDeleteByExample="true" enableSelectByExample="true"
+               selectByExampleQueryId="true">
+               <property name="ignoreQualifiersAtRuntime" value="true"></property>
+        </table>
+        <table tableName="fe_combo_func_template" schema="" catalog="zpaas_lowcode_revise" domainObjectName="ComboFuncTemplate"
+               enableCountByExample="true" enableUpdateByExample="true"
+               enableDeleteByExample="true" enableSelectByExample="true"
+               selectByExampleQueryId="true">
+               <property name="ignoreQualifiersAtRuntime" value="true"></property>
+        </table>
+        <table tableName="fe_combo_func_define" schema="" catalog="zpaas_lowcode_revise" domainObjectName="ComboFuncDefine"
+               enableCountByExample="true" enableUpdateByExample="true"
+               enableDeleteByExample="true" enableSelectByExample="true"
+               selectByExampleQueryId="true">
+               <property name="ignoreQualifiersAtRuntime" value="true"></property>
+        </table>
+        <table tableName="fe_combo_func_tab" schema="" catalog="zpaas_lowcode_revise" domainObjectName="ComboFuncTab"
+               enableCountByExample="true" enableUpdateByExample="true"
+               enableDeleteByExample="true" enableSelectByExample="true"
+               selectByExampleQueryId="true">
+               <property name="ignoreQualifiersAtRuntime" value="true"></property>
+        </table>
+        <table tableName="fe_func_customized_page" schema="" catalog="zpaas_lowcode_revise" domainObjectName="FuncCustomizedPage"
+               enableCountByExample="true" enableUpdateByExample="true"
+               enableDeleteByExample="true" enableSelectByExample="true"
+               selectByExampleQueryId="true">
+               <property name="ignoreQualifiersAtRuntime" value="true"></property>
+        </table>
+        <table tableName="fe_func_customized_layout" schema="" catalog="zpaas_lowcode_revise" domainObjectName="FuncCustomizedLayout"
+               enableCountByExample="true" enableUpdateByExample="true"
+               enableDeleteByExample="true" enableSelectByExample="true"
+               selectByExampleQueryId="true">
+               <property name="ignoreQualifiersAtRuntime" value="true"></property>
+        </table>
+        <table tableName="fe_func_customized_layout_region" schema="" catalog="zpaas_lowcode_revise" domainObjectName="FuncCustomizedLayoutRegion"
+               enableCountByExample="true" enableUpdateByExample="true"
+               enableDeleteByExample="true" enableSelectByExample="true"
+               selectByExampleQueryId="true">
+               <property name="ignoreQualifiersAtRuntime" value="true"></property>
+        </table>
+        <table tableName="pub_user_business_system" schema="" catalog="zpaas_lowcode_revise" domainObjectName="UserBusinessSystem"
+               enableCountByExample="true" enableUpdateByExample="true"
+               enableDeleteByExample="true" enableSelectByExample="true"
+               selectByExampleQueryId="true">
+               <property name="ignoreQualifiersAtRuntime" value="true"></property>
+        </table>
+        <table tableName="be_security_key_resource" schema="" catalog="zpaas_lowcode_revise" domainObjectName="SecurityKeyResource"
+               enableCountByExample="true" enableUpdateByExample="true"
+               enableDeleteByExample="true" enableSelectByExample="true"
+               selectByExampleQueryId="true">
+               <property name="ignoreQualifiersAtRuntime" value="true"></property>
+        </table>
+
+
+        <table tableName="bi_data_model" schema="" catalog="zpaas_lowcode_revise" domainObjectName="DataModel"
+               enableCountByExample="true" enableUpdateByExample="true"
+               enableDeleteByExample="true" enableSelectByExample="true"
+               selectByExampleQueryId="true">
+               <property name="ignoreQualifiersAtRuntime" value="true"></property>
+        </table>
+        <table tableName="bi_data_model_column" schema="" catalog="zpaas_lowcode_revise" domainObjectName="DataModelColumn"
+               enableCountByExample="true" enableUpdateByExample="true"
+               enableDeleteByExample="true" enableSelectByExample="true"
+               selectByExampleQueryId="true">
+               <property name="ignoreQualifiersAtRuntime" value="true"></property>
+        </table>
+        <table tableName="bi_data_model_metrics" schema="" catalog="zpaas_lowcode_revise" domainObjectName="DataModelMetrics"
+               enableCountByExample="true" enableUpdateByExample="true"
+               enableDeleteByExample="true" enableSelectByExample="true"
+               selectByExampleQueryId="true">
+               <property name="ignoreQualifiersAtRuntime" value="true"></property>
+        </table>
+        <table tableName="bi_data_model_tag" schema="" catalog="zpaas_lowcode_revise" domainObjectName="DataModelTag"
+               enableCountByExample="true" enableUpdateByExample="true"
+               enableDeleteByExample="true" enableSelectByExample="true"
+               selectByExampleQueryId="true">
+               <property name="ignoreQualifiersAtRuntime" value="true"></property>
+        </table>
+        <table tableName="bi_data_model_filter" schema="" catalog="zpaas_lowcode_revise" domainObjectName="DataModelFilter"
+               enableCountByExample="true" enableUpdateByExample="true"
+               enableDeleteByExample="true" enableSelectByExample="true"
+               selectByExampleQueryId="true">
+               <property name="ignoreQualifiersAtRuntime" value="true"></property>
+        </table>
+        <table tableName="bi_data_model_filter_value" schema="" catalog="zpaas_lowcode_revise" domainObjectName="DataModelFilterValue"
+               enableCountByExample="true" enableUpdateByExample="true"
+               enableDeleteByExample="true" enableSelectByExample="true"
+               selectByExampleQueryId="true">
+               <property name="ignoreQualifiersAtRuntime" value="true"></property>
+        </table>
+        <table tableName="bi_data_set" schema="" catalog="zpaas_lowcode_revise" domainObjectName="DataSet"
+               enableCountByExample="true" enableUpdateByExample="true"
+               enableDeleteByExample="true" enableSelectByExample="true"
+               selectByExampleQueryId="true">
+               <property name="ignoreQualifiersAtRuntime" value="true"></property>
+        </table>
+        <table tableName="bi_data_set_composition" schema="" catalog="zpaas_lowcode_revise" domainObjectName="DataSetComposition"
+               enableCountByExample="true" enableUpdateByExample="true"
+               enableDeleteByExample="true" enableSelectByExample="true"
+               selectByExampleQueryId="true">
+               <property name="ignoreQualifiersAtRuntime" value="true"></property>
+        </table>
+        <table tableName="bi_data_set_composition_join" schema="" catalog="zpaas_lowcode_revise" domainObjectName="DataSetCompositionJoin"
+               enableCountByExample="true" enableUpdateByExample="true"
+               enableDeleteByExample="true" enableSelectByExample="true"
+               selectByExampleQueryId="true">
+               <property name="ignoreQualifiersAtRuntime" value="true"></property>
+        </table>
+        <table tableName="bi_data_set_detail" schema="" catalog="zpaas_lowcode_revise" domainObjectName="DataSetDetail"
+               enableCountByExample="true" enableUpdateByExample="true"
+               enableDeleteByExample="true" enableSelectByExample="true"
+               selectByExampleQueryId="true">
+               <property name="ignoreQualifiersAtRuntime" value="true"></property>
+        </table>
+        <table tableName="be_cron_job" schema="" catalog="zpaas_lowcode_revise" domainObjectName="CronJob"
+               enableCountByExample="true" enableUpdateByExample="true"
+               enableDeleteByExample="true" enableSelectByExample="true"
+               selectByExampleQueryId="true">
+               <property name="ignoreQualifiersAtRuntime" value="true"></property>
+        </table>
+        <table tableName="pub_deploy_instance_registry" schema="" catalog="zpaas_lowcode_revise" domainObjectName="DeployInstanceRegistry"
+               enableCountByExample="true" enableUpdateByExample="true"
+               enableDeleteByExample="true" enableSelectByExample="true"
+               selectByExampleQueryId="true">
+               <property name="ignoreQualifiersAtRuntime" value="true"></property>
+        </table>
+    </context>
+</generatorConfiguration>

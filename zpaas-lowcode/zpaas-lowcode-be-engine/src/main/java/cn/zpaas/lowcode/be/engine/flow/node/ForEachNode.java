@@ -42,7 +42,28 @@ public class ForEachNode extends Node {
 	public static final String FOR_EACH_ROW_INDEX = "forEachRowIndex"; // forEachRowIndex存放的Key
 	public static final String FOR_EACH_ELEMENT = "forEachElement"; // forEachElement存放的Key
 
-	
+	/*
+	 * {
+	 * arrayObjectSource：列表对象的来源，包括：P（过程数据）；D（领域对象）；I（输入参数）；N（预处理产生的nodeParams）；O（
+	 * 业务流的属主领域对象）
+	 * arrayObjectKey：列表对象的Key值，条件对象的来源为I（输入参数）时，表示输入参数中的Key；
+	 * 为D（领域对象）时，表示领域对象在context.attributedObjectMap或context.attributedObjectsMap（
+	 * 根据conditionObjectIsList的值进行区分）中的key值；
+	 * 为P（过程数据）时，该值表示context.values中的key值，
+	 * 当为N（预处理产生的nodeParams）或O（业务流的属主领域对象）时，Key值无效；
+	 * arrayAttrPath：列表对象属性对应的json path，可为空
+	 * arrayElementIsList：列表的每个元素对象是否是列表，true/false
+	 * arrayElementObjectType：列表元素对象的类型，包括：D（领域对象），R（值传递对象），J（原生Java对象）
+	 * arrayElementObjectClass：列表数据对象的类，对应领域对象标识、值传递对象的标识或者全路径的Java类
+	 * 
+	 * subBusinessFlowId：循环分支执行的子业务流标识
+	 * 
+	 * isListResult：节点执行结果是否是List类型，包括：true/false
+	 * nodeResultType：节点执行结果对象的类型，包括：JDK原生对象（J）、领域对象（D）、值传递对象（R）
+	 * nodeResultClass：节点执行结果对象的实现类，当属性类型为JDK原生对象（J）时，对应的JDK原生对象类型，完整的类名表示；
+	 * 为领域对象（DO）或值传递对象（RO）时有效，对应领域对象或值传递对象的主键，为空时，表示使用默认结构
+	 * }
+	 */
 	/**
 	 * 该节点类型的业务处理方法，参数为业务流节点信息和业务流上下文对象
 	 * 

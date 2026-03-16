@@ -12,7 +12,8 @@ import cn.zpaas.lowcode.exception.CommException;
  * createTime 2025年04月21日-18:06:12
  */
 public class SnowFlakeID {
-    //项目开始时间
+    //“0”+41位时间戳+3位数据中心标识+7位服务器标识+2位时间回拨序列+10位序列号
+	//项目开始时间
 	private static final long BEGIN_TIME = 1694569534593L;	
 	//服务器标识的位长
     private static final long MACHINE_ID_LENGTH = 7L;

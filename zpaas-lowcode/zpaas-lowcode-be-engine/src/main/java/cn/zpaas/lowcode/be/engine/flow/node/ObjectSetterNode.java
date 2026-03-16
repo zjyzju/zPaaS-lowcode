@@ -47,7 +47,44 @@ public class ObjectSetterNode extends Node {
 	private static final String CFG_ATTR_PATH_ROOT = "/"; // 配置信息中fromAttrPath信息，表示源对象本身的字符
 	private static final String CFG_ADD_ARRAY_ELEMENT_ROOT = "[@+]";// 当以该标识结尾时，表示往数组中新增一条，当数组为null时，默认初始化
 
-	
+	/*
+	 * {
+	 * isListType: 目标对象是否列表类型，true/false
+	 * 
+	 * toObjectInstanceSource：目标对象实例的来源，可空，如果目标对象实例已经存在的情况下配置，这种情况下，
+	 * 后置配置信息中的相关信息可以不用配置，包括：P（过程数据）；D（领域对象）；
+	 * toObjectInstanceKey：目标对象实例的Key值
+	 * toObjectInstanceAttr：当源对象是指定对象的某个属性时有效，通过该字段指定对应属性的code，此时指定对象不能是列表类型。
+	 * toObjectType：目标对象的类型，包括：D（领域对象），R（值传递对象）
+	 * toObjectClass：目标对象的类，对应领域对象或值传递对象的标识
+	 * 
+	 * paramsRule:[
+	 * {
+	 * fromObjectIsList：源对象是否是列表类型，true/false，默认为false
+	 * fromObjectType：源对象的类型，包括：I（输入参数）；P（过程数据）；D（领域对象）；F（固定值）
+	 * fromObjectKey：源对象类型为I（输入参数）时，为输入参数中的Key；为D（领域对象）时，表示领域对象在context.
+	 * attributedObjectMap中的key值；为P（过程数据）时，该值表示context.values中的key值；为F（固定值）时，
+	 * 该字段配置具体的值。
+	 * attrMappings：[
+	 * {
+	 * fromAttrPath：源对象属性对应的json path，如果是“/”，则表示源对象本身
+	 * toObjectAttr：目标参数的属性名，也需要支持json path格式,如果是特殊的值“/”，表示赋值给对象本身;
+	 * 当以“[@+]”该标识结尾时，表示往数组中新增一条，当数组为null时，默认初始化;如果是数字的话，需要加双斜杠，如“\\1”
+	 * }
+	 * ……
+	 * ]
+	 * }
+	 * ……
+	 * ]
+	 * 
+	 * isListResult：节点执行结果是否是List类型，包括：true/false
+	 * nodeResultType：节点执行结果对象的类型，包括：JDK原生对象（J）、领域对象（D）、值传递对象（R）
+	 * nodeResultClass：节点执行结果对象的实现类，当属性类型为JDK原生对象（J）时，对应的JDK原生对象类型，完整的类名表示；为领域对象（DO）
+	 * 或值传递对象（RO）时有效，对应领域对象或值传递对象的主键，为空时，表示使用默认结构
+	 * }
+	 * 
+	 */
+
 	/**
 	 * 该节点类型的业务处理方法，参数为业务流节点信息和业务流上下文对象
 	 * 

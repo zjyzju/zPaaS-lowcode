@@ -38,6 +38,21 @@ public class LocalInvokeNode extends Node {
 	public static final String CFG_IN_PARAM_INSTANCE_KEY_KEY = "inParamInstanceKey"; //调用方法标识存放的Key
 	
 	
+	/*
+	 * { 
+	 * 	objectType: 调用对象类型，包括：S：服务对象；D：领域对象
+	 * 	objectId：调用对象标识，对应服务对象表或领域对象表的主键
+	 * 	instanceKey：调用对象实例的Key值，只针对领域对象方法调用有效 
+	 * 	inParamInstanceSource：参数实例的来源，包括：I（原始输入参数）；P（过程数据）；N（预处理产生的nodeParams）
+	 * 	inParamInstanceKey：参数实例的Key值，源对象类型为I（原始输入参数）和N（预处理产生的nodeParams）时，该值无效；为P（过程数据）时，
+	 * 				该值表示context.values中的key值
+	 * 	operationId：调用方法标识
+	 *  asyncInvoke: 异步调用，包括true/false，默认为false
+	 * 	isListResult：节点执行结果是否是List类型，包括：true/false
+	 * 	nodeResultType：节点执行结果对象的类型，包括：JDK原生对象（J）、领域对象（D）、值传递对象（R）
+	 * 	nodeResultClass：节点执行结果对象的实现类，当属性类型为JDK原生对象（J）时，对应的JDK原生对象类型，完整的类名表示；为领域对象（DO）
+	 * 			或值传递对象（RO）时有效，对应领域对象或值传递对象的主键，为空时，表示使用默认结构 }
+	 */
 	
 	/**
 	 * 该节点类型的业务处理方法，参数为业务流节点信息和业务流上下文对象

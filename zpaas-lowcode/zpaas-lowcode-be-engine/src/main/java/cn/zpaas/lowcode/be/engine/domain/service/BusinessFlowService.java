@@ -72,7 +72,7 @@ public class BusinessFlowService {
 		info.setSubBusinessFlowMap(new HashMap<>());
 		if(!CollectionUtils.isEmpty(info.getBusinessFlowNodes())) {
 			for(BusinessFlowNode node : info.getBusinessFlowNodes()) {
-				if(StringUtils.isBlank(node.getFlowNodeId())) {
+				if(!StringUtils.isBlank(node.getFlowNodeId())) {
 					node.setFlowNode(BusinessFlowTemplate.getNode(node.getFlowNodeId()).getFlowNode());
 				}
 

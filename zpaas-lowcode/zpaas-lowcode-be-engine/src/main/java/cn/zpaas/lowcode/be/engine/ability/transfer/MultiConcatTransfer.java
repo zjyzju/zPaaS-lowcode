@@ -20,7 +20,12 @@ public class MultiConcatTransfer extends Transfer {
     private static final String OTHER_CONCAT_ATTRS_KEY = "otherConcatAttrs";//其他需要合并的属性
     private static final String LEFT_PLACEHOLDER = "\\$\\{";//左占位符
     private static final String RIGHT_PLACEHOLDER = "\\}";//右占位符
-    
+    /**
+     * {
+     *     "concatPattern":"${userName}(${userId})-${address.cityName}",
+     *      "otherConcatAttrs":["userName","address.cityName"]
+     * }
+     */
     @Override
     public Object transfer(Attribute fromAttr, Object fromAttrValue, Attribute toAttr, JsonObject transferCfg,
             JsonObject fromObject)  throws EngineException{

@@ -4,7 +4,7 @@ import { ElMessage } from 'element-plus'
 
 const axiosClient = axios.create({
     withCredentials: true, // 跨域请求时是否需要使用凭证
-    timeout: 30000, // 请求超时时间
+    timeout: 300000, // 请求超时时间
     // transformResponse: [function (data) {//处理Long类型精度丢失问题
     //     try {
     //         console.log(data);

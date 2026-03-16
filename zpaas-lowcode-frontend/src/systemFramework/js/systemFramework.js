@@ -30,8 +30,10 @@ microApp.start({
         ],
       },
     },
+    //prefetchDelay: 5000, 
     //'disable-memory-router': true,
     //'disable-patch-request': true
+    iframeSrc: '/empty.html'
   }
  );
 const app = createApp(App)

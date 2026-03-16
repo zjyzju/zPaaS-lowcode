@@ -49,7 +49,39 @@ public class WorkflowTaskQueryNode extends Node {
 	public static final String CFG_PROCESS_INST_ID_KEY = "processInstIdKey"; // 流程实例标识存放的Key
 	public static final String CFG_PROCESS_INST_ID_ATTR_KEY = "processInstIdAttr"; // 流程实例标识存放的属性
 
-	
+	/*
+	 * {
+	 * processDefIdSource：流程定义标识来源，包括：P（过程数据）；D（领域对象）；O（属主对象）；I（输入参数）；F（固定值）。可空。
+	 * processDefIdKey：流程定义标识的Key值。可空。
+	 * processDefIdAttr：当源对象是指定对象的某个属性时有效，通过该字段指定对应属性的code，此时指定对象不能是列表类型。
+	 * 
+	 * processDefKeySource：流程定义关键字来源，包括：P（过程数据）；D（领域对象）；O（属主对象）；I（输入参数）；F（固定值）。可空。
+	 * processDefKeyKey：流程定义关键字的Key值。可空。
+	 * processDefKeyAttr：当源对象是指定对象的某个属性时有效，通过该字段指定对应属性的code，此时指定对象不能是列表类型。
+	 * 
+	 * candidateGroupsSource：任务候选组来源，包括：P（过程数据）；D（领域对象）；O（属主对象）；I（输入参数）；F（固定值）。可空。
+	 * candidateGroupsKey：任务候选组的Key值。可空。
+	 * candidateGroupsAttr：当源对象是指定对象的某个属性时有效，通过该字段指定对应属性的code，此时指定对象不能是列表类型。
+	 * 
+	 * assigneeSource：任务绑定员工来源，包括：P（过程数据）；D（领域对象）；O（属主对象）；I（输入参数）；F（固定值）。可空。
+	 * assigneeKey：任务绑定员工的Key值。可空。
+	 * assigneeAttr：当源对象是指定对象的某个属性时有效，通过该字段指定对应属性的code，此时指定对象不能是列表类型。
+	 * 
+	 * taskDefKeySource：任务定义关键字来源，包括：P（过程数据）；D（领域对象）；O（属主对象）；I（输入参数）；F（固定值）。可空。
+	 * taskDefKeyKey：任务定义关键字的Key值。可空。
+	 * taskDefKeyAttr：当源对象是指定对象的某个属性时有效，通过该字段指定对应属性的code，此时指定对象不能是列表类型。
+	 * 
+	 * processInstIdSource：流程实例标识来源，包括：P（过程数据）；D（领域对象）；O（属主对象）；I（输入参数）；F（固定值）。可空。
+	 * processInstIdKey：流程实例标识的Key值。可空。
+	 * processInstIdAttr：当源对象是指定对象的某个属性时有效，通过该字段指定对应属性的code，此时指定对象不能是列表类型。
+	 * 
+	 * isListResult：节点执行结果是否是List类型，包括：true/false
+	 * nodeResultType：节点执行结果对象的类型，包括：JDK原生对象（J）、领域对象（D）、值传递对象（R）
+	 * nodeResultClass：节点执行结果对象的实现类，当属性类型为JDK原生对象（J）时，对应的JDK原生对象类型，完整的类名表示；为领域对象（DO）
+	 * 或值传递对象（RO）时有效，对应领域对象或值传递对象的主键，为空时，表示使用默认结构
+	 * }
+	 * 
+	 */
 	@Override
 	/**
 	 * 该节点类型的业务处理方法，参数为业务流节点信息和业务流上下文对象

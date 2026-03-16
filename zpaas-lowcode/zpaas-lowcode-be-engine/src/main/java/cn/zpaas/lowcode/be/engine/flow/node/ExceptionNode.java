@@ -23,7 +23,16 @@ public class ExceptionNode extends Node {
 	public static final String CFG_RESULT_STATUS_KEY = "resultStatus"; //状态存放的Key
 	public static final String CFG_MESSAGE_KEY = "message";//详细信息存放的Key
 		
-	
+	/*
+	 {
+		resultStatus： 状态，400:非法请求；500:内部错误；900:业务错误；
+		message：详细信息；
+
+		isListResult：节点执行结果是否是List类型，包括：true/false
+		nodeResultType：节点执行结果对象的类型，包括：JDK原生对象（J）、领域对象（D）、值传递对象（R）
+		nodeResultClass：节点执行结果对象的实现类，当属性类型为JDK原生对象（J）时，对应的JDK原生对象类型，完整的类名表示；为领域对象（DO）或值传递对象（RO）时有效，对应领域对象或值传递对象的主键，为空时，表示使用默认结构
+	}
+	 */
 	/**
 	 * 该节点类型的业务处理方法，参数为业务流节点信息和业务流上下文对象
 	 * 

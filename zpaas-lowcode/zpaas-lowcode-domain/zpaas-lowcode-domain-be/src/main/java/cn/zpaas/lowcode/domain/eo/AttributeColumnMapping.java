@@ -13,12 +13,6 @@ import cn.zpaas.lowcode.utils.StringUtils;
 import cn.zpaas.lowcode.utils.UUID;
 import cn.zpaas.lowcode.domain.mapper.AttributeColumnMappingMapper;
 
-/**
- * 属性字段映射领域对象
- *
- * @author zjy
- * createTime 2025年04月6日-下午10:39:40
- */
 @Repository
 public class AttributeColumnMapping {
     private static Logger logger = LoggerFactory.getLogger(AttributeColumnMapping.class);

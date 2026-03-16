@@ -51,6 +51,31 @@ public class RestInvokeNode extends Node {
 	//private static final String RESULT_DATA_KEY = "data"; //Result类中返回数据对应的属性
 	
 	
+	/*
+	 * {
+		httpMethod：调用Rest方法的httpMethod，不可空
+		url：调用Rest方法的URL，不可空
+		connectTimeout：httpClient的connectTimeout参数，单位为秒
+		readTimeout：httpClient的readTimeout参数，单位为秒
+		writeTimeout：httpClient的writeTimeout参数，单位为秒
+		其他httpClient参数后续再增加
+
+		inParamInstanceSource：参数实例的来源，包括：I（原始输入参数）；P（过程数据）；N（预处理产生的nodeParams）
+		inParamInstanceKey：参数实例的Key值，源对象类型为I（原始输入参数）和N（预处理产生的nodeParams）时，该值无效；为P（过程数据）时，该值表示context.values中的key值
+		isUriParam：是否Uri参数，true/false
+
+		headerSource：header参数的来源，包括：I（原始输入参数）；P（过程数据）；N（预处理产生的nodeParams）
+		headerKey：header参数Key值，源对象类型为I（原始输入参数）和N（预处理产生的nodeParams）时，该值无效；为P（过程数据）时，该值表示context.values中的key值
+		ignoreCertVerify：是否忽略HTTPS证书校验，true/false
+
+		resultKey：包含返回结果数据的Key，为空则表示整个body都是返回结果数据
+		
+		
+		isListResult：节点执行结果是否是List类型，包括：true/false
+		nodeResultType：节点执行结果对象的类型，包括：JDK原生对象（J）、领域对象（D）、值传递对象（R）
+		nodeResultClass：节点执行结果对象的实现类，当属性类型为JDK原生对象（J）时，对应的JDK原生对象类型，完整的类名表示；为领域对象（DO）或值传递对象（RO）时有效，对应领域对象或值传递对象的主键，为空时，表示使用默认结构
+	}
+	 */
 	
 	/**
 	 * 该节点类型的业务处理方法，参数为业务流节点信息和业务流上下文对象

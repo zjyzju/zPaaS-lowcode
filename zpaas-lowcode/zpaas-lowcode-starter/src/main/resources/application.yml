@@ -118,6 +118,14 @@ init:
         loginInfoKey: loginInfo
         stream:
             timeout: 60000
+    
+embedded:    
+    ai:
+        model: qwen3-max
+        baseUrl: https://dashscope.aliyuncs.com/api/v2/apps/protocols/compatible-mode/v1/responses
+        apiKey: axxxxx(toModify)
+        responsePath: output[0].content[0].text
+
 
 service:
     registry:

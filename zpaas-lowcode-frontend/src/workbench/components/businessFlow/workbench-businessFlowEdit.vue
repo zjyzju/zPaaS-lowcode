@@ -3,7 +3,7 @@
 <template>
 <el-dialog v-model="showFlag" v-if="showBusinessFlowEdit ==true" title="业务流编辑" width="98vw" top="2vh"  :close-on-press-escape="false" :close-on-click-modal="false" :show-close="false">
     <template #header>
-        <span class="title">业务流编辑</span>
+        <span class="title">业务流编辑&nbsp;&nbsp;&nbsp;&nbsp;<el-link  type="primary"  @click="logicComposerByAi()">通过AI进行初始编排</el-link></span>
     </template>
     <template #default>
         <div>
@@ -19,7 +19,7 @@
                             <el-input v-model="businessFlowInfo.businessFlow.name"  size="small"/>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="4">
+                    <el-col :span="3">
                         <el-form-item label="加入事务" required prop="businessFlow.transactionRequired">
                             <el-select v-model="businessFlowInfo.businessFlow.transactionRequired" class="m-2" placeholder="Select" size="small">
                                 <el-option
@@ -43,7 +43,7 @@
                              </el-select>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="4">
+                    <el-col :span="5">
                         <el-form-item label="对应数据库">
                             <el-select v-model="businessFlowInfo.businessFlow.dbSchemaId" class="m-2" placeholder="Select" size="small">
                                 <el-option
@@ -60,9 +60,9 @@
                 <el-row :gutter="4">
                     <el-col :span="24">
                         <el-divider content-position="left"   border-style="dashed" style="margin-top: 12px;margin-bottom: 12px">
-                        <div class="toolbar1">
-                            业务流
-                        </div>
+                            <div class="toolbar1">
+                                业务流
+                            </div>
                         </el-divider>
                     </el-col>
                 </el-row>
@@ -434,9 +434,10 @@
 <dataMappingSelect v-if="showDataMappingSelect==true && dataMappingsForSelect != null" :dataMappingSelectType="dataMappingSelectType"  @dataMappingSelected="dataMappingSelected" @hideDataMappingSelectPage="hideDataMappingSelectPage" :showDataMappingSelect="showDataMappingSelect"  :dataMappingsForSelect="dataMappingsForSelect"/>
 <!-- 选择领域对象信息 -->
 <domainObjectSelect v-if="showDomainObjectSelect==true && managedObjectsForSelect != null"  @managedObjectSelected="managedObjectSelected" @hideDomainObjectSelectPage="hideDomainObjectSelectPage" :showDomainObjectSelect="showDomainObjectSelect"  :managedObjectsForSelect="managedObjectsForSelect"/>
-
 <!-- 可用数据辅助选择 -->
 <availableDataSelect v-if="showAvailableDataSelect == true" :operation="businessFlowInfo.operation" :params="businessFlowInfo.operationParams" :ownerAttributes="businessFlowInfo.ownerAttributes" :domainObjectValues="domainObjectValues" :inProcessDatas="inProcessDatas" :loginSessionKey="loginSessionKey" :showAvailableDataSelect="showAvailableDataSelect" @hideDataSelectPage="onAvailableDataSuggestHide" @selectAvailabeData="selectAvailabeData" :contextTypes="contextTypeOptions"/>
+<!-- 通过AI进行逻辑编排 -->
+<logicComposerAi v-if="showLogicComposerAi == true" :businessFlow="businessFlowInfo.businessFlow" :showLogicComposerAi="showLogicComposerAi" @hideLogicComposerAiPage="hideLogicComposerAiPage" @genBusinessFlowInfoByAi="genBusinessFlowInfoByAi" />
 											   
 </template>
 
@@ -459,6 +460,7 @@ const domainObjectSelect = defineAsyncComponent(() => import('../domainModel/wor
 const availableDataSuggest = defineAsyncComponent(() => import('./workbench-businessFlow-availableDataSuggest.vue'));
 
 const availableDataSelect = defineAsyncComponent(() => import('./workbench-businessFlow-dataSelect.vue'));
+const logicComposerAi = defineAsyncComponent(() => import('./workbench-businessFlow-logicComposerAi.vue'));
 
 //import nodeCfgEditORMRepositoryNode from './flowNode/workbench-nodeCfgEdit-ORMRepositoryNode.vue'
 const nodeCfgEditORMRepositoryNode = defineAsyncComponent(() => import('./flowNode/workbench-nodeCfgEdit-ORMRepositoryNode.vue'));
@@ -578,6 +580,7 @@ export default {
     	domainObjectSelect,
     	availableDataSuggest,
         availableDataSelect,
+        logicComposerAi,
     	
     	nodeCfgEditORMRepositoryNode,
     	nodeCfgEditSqlQueryNode,
@@ -658,6 +661,7 @@ export default {
         
         const showAvailableDataSuggest = ref(false);
         const showAvailableDataSelect = ref(false);
+        const showLogicComposerAi = ref(false);
         const inProcessDatas = ref([]);
         const domainObjectValues = ref([]);
         const loginSessionKey = ref(null);
@@ -716,6 +720,7 @@ export default {
             
             showAvailableDataSuggest,
             showAvailableDataSelect,
+            showLogicComposerAi,
             dataSelectedHandler,
             contextTypeOptions,
             inProcessDatas,
@@ -818,6 +823,29 @@ export default {
         
     },     
     methods: {
+        logicComposerByAi() {
+            this.showLogicComposerAi = true;
+        },
+        hideLogicComposerAiPage() {
+    		this.showLogicComposerAi = false;
+    	},
+        genBusinessFlowInfoByAi(businessFlowInfoGen) {
+    		this.hideLogicComposerAiPage();
+            console.log(businessFlowInfoGen);
+            this.businessFlowInfo.businessFlowNodes = businessFlowInfoGen.businessFlowNodes;
+            this.businessFlowInfo.subBusinessFlowMap = businessFlowInfoGen.subBusinessFlowMap;
+            this.businessFlowInfo.bpmnXml = businessFlowInfoGen.bpmnXml;
+            var nodeList = [];
+            var subFlows = {};
+            this.processBusinessNodesOfResult(this.businessFlowInfo, nodeList, subFlows);
+            this.businessFlowInfo.allBusinessFlowNode = nodeList;
+            this.businessFlowInfo.allSubBusinessFlow = subFlows; 
+            this.businessFlowNodeInfo = null;
+            this.currentBpmnTaskNode = null;
+            setTimeout(()=>{
+                this.loadBpmnProcess();
+            },100);
+    	},
     	updateNodeCfgJson(json) {
     		this.businessFlowNodeInfo.nodeCfg = JSON.stringify(json);
     		this.businessFlowNodeInfo.nodeCfgJson = json;
