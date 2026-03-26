@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.servlet.util.matcher.PathPatternRequestMatcher;
 import org.springframework.stereotype.Repository;
 
 import cn.zpaas.lowcode.domain.mapper.BusinessSystemAuthMapper;
@@ -40,7 +40,7 @@ public class BusinessSystemAuth {
 
     private Date updateTime;
     
-    private List<AntPathRequestMatcher> ignoreUrlMatchers;
+    private List<PathPatternRequestMatcher> ignoreUrlMatchers;
     private Map<String, ThirdpartySystem> thirdparthSystemMap;
     
     @Autowired
@@ -105,7 +105,7 @@ public class BusinessSystemAuth {
     		if(urls != null && urls.length > 0) {
     			ignoreUrlMatchers = new ArrayList<>();
     			for(int i=0; i<urls.length; i++) {
-        			ignoreUrlMatchers.add(new AntPathRequestMatcher(urls[i]));
+        			ignoreUrlMatchers.add(PathPatternRequestMatcher.withDefaults().matcher(urls[i]));
         		}
     		}
     		
@@ -212,11 +212,11 @@ public class BusinessSystemAuth {
         this.updateTime = updateTime;
     }
 
-	public List<AntPathRequestMatcher> getIgnoreUrlMatchers() {
+	public List<PathPatternRequestMatcher> getIgnoreUrlMatchers() {
 		return ignoreUrlMatchers;
 	}
 
-	public void setIgnoreUrlMatchers(List<AntPathRequestMatcher> ignoreUrlMatchers) {
+	public void setIgnoreUrlMatchers(List<PathPatternRequestMatcher> ignoreUrlMatchers) {
 		this.ignoreUrlMatchers = ignoreUrlMatchers;
 	}
 

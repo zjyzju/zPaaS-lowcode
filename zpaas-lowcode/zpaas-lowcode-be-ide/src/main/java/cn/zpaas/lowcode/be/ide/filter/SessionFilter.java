@@ -19,7 +19,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.servlet.util.matcher.PathPatternRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 
 import com.google.gson.JsonObject;
@@ -64,7 +64,7 @@ public class SessionFilter implements Filter {
 	private String ignoreUrls;
 	
 	//ignoreUrlMatchers
-	private List<AntPathRequestMatcher> ignoreUrlMatchers  = new ArrayList<>();
+	private List<PathPatternRequestMatcher> ignoreUrlMatchers  = new ArrayList<>();
 
 	@Autowired
 	private UserBusinessSystem userBusinessSystemSV;
@@ -133,15 +133,15 @@ public class SessionFilter implements Filter {
 	 * 初始化忽略的url
 	 */
 	private void initUrlMatchers() {
-		ignoreUrlMatchers.add(new AntPathRequestMatcher(URL_ROOT + initServicePath + URL_ROOT_STAR_STAR));
-		ignoreUrlMatchers.add(new AntPathRequestMatcher(URL_ROOT + initFileUploadServicePath + URL_ROOT_STAR_STAR));
-		ignoreUrlMatchers.add(new AntPathRequestMatcher(URL_ROOT + initFileDownloadServicePath + URL_ROOT_STAR_STAR));
+		ignoreUrlMatchers.add(PathPatternRequestMatcher.withDefaults().matcher(URL_ROOT + initServicePath + URL_ROOT_STAR_STAR));
+		ignoreUrlMatchers.add(PathPatternRequestMatcher.withDefaults().matcher(URL_ROOT + initFileUploadServicePath + URL_ROOT_STAR_STAR));
+		ignoreUrlMatchers.add(PathPatternRequestMatcher.withDefaults().matcher(URL_ROOT + initFileDownloadServicePath + URL_ROOT_STAR_STAR));
 		
 		if (!StringUtils.isBlank(ignoreUrls)) {
 			String[] urls = ignoreUrls.split(URL_SEPARATE_SYMBOL);
 			if (urls != null && urls.length > 0) {
 				for (int i = 0; i < urls.length; i++) {
-					ignoreUrlMatchers.add(new AntPathRequestMatcher(urls[i]));
+					ignoreUrlMatchers.add(PathPatternRequestMatcher.withDefaults().matcher(urls[i]));
 				}
 			}
 		}
