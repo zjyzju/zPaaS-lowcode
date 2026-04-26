@@ -25,4 +25,6 @@ zpaas-documents/（09）zPaaS低代码平台使用介绍：实现自定义复杂
 
 zpaas-documents/（10）zPaaS低代码平台使用介绍：实现可视化图表.pdf
 
+zpaas-documents/（11）zPaaS低代码平台使用介绍：使用AI进行初始业务逻辑编排.pdf
+
 
