@@ -804,7 +804,10 @@ public class BusinessFlowGenService {
 
 		nodeComposer = nodeComposer.replace(FLOW_NODE_LIST, BusinessFlowTemplate.getNodeListStr());
 		String nodeList = this.aiDrivenAbility.chatWithAi(nodeComposer);
-		JsonArray nodeArray = JsonUtils.toJsonArray(nodeList);
+		if(nodeList.indexOf("######") >= 0) {
+            nodeList = nodeList.replaceAll("######", StringUtils.emptyString());
+        }
+        JsonArray nodeArray = JsonUtils.toJsonArray(nodeList);
 		if(JsonUtils.isEmpty(nodeArray)) {
 			throw new EngineException(ResultStatus.BUSINESS_ERROR, "invalid JsonArray for node list!");
 		}

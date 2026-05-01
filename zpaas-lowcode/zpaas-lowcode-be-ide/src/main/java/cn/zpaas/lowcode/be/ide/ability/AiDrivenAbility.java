@@ -62,6 +62,9 @@ public class AiDrivenAbility {
         JsonObject chatJson = new JsonObject();
         chatJson.addProperty(INPUT_KEY, message);
         chatJson.addProperty(MODEL_KEY, this.model);
+        if(logger.isTraceEnabled()) {
+            logger.trace("chatWithAi msg: " + JsonUtils.toJson(chatJson));
+        }
         try (HttpClient httpClient = HttpClientUtils.buildeHttpClient(60000l, true);){
             HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(this.baseUrl)).header(CONTENT_TYPE, CONTENT_TYPE_JSON).header(AUTHORIZATION, BEARER + this.apiKey)
@@ -72,6 +75,10 @@ public class AiDrivenAbility {
                 StringBuilder sb = new StringBuilder();
                 while((line = br.readLine()) != null) {
                     sb.append(line);
+                }
+                
+                if(logger.isTraceEnabled()) {
+                    logger.trace("chatWithAi response: " + sb);
                 }
                 return JsonUtils.eval(JsonUtils.toJsonObject(sb.toString()), this.responsePath).toString();
             }
@@ -93,6 +100,9 @@ public class AiDrivenAbility {
         chatJson.addProperty(INPUT_KEY, message);
         chatJson.addProperty(MODEL_KEY, this.model);
         chatJson.addProperty(STREAM_KEY, true);
+        if(logger.isTraceEnabled()) {
+            logger.trace("chatWithAiStream msg: " + JsonUtils.toJson(chatJson));
+        }
         try (HttpClient httpClient = HttpClientUtils.buildeHttpClient(60000l, true);){
             HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(this.baseUrl)).header(CONTENT_TYPE, CONTENT_TYPE_JSON).header(AUTHORIZATION, BEARER + this.apiKey)
@@ -105,6 +115,9 @@ public class AiDrivenAbility {
                 while((line = br.readLine()) != null) {
                     if(!line.startsWith("data:")) {
                         continue;
+                    }
+                    if(logger.isTraceEnabled()) {
+                        logger.trace("chatWithAiStream response: " + line);
                     }
                     String response = JsonUtils.getString(JsonUtils.toJsonObject(line.substring(5)), RESPONSE_KEY);
                     if(StringUtils.isBlank(response)) {

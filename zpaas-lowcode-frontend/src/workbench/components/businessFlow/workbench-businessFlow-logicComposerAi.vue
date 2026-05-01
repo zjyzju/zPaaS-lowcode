@@ -164,7 +164,7 @@ export default {
             };
             eventSource.onerror = (event) => {
                 eventSource.close();
-                //ElMessage.error(`访问AI服务失败!\n` + event);
+                ElMessage.error(`访问AI服务失败!\n` + event);
                 this.chatButtonDisabled = false;
             };
             eventSource.oncomplete = (event) => {

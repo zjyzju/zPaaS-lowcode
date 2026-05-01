@@ -95,7 +95,11 @@ export default {
             }
             var businessFlowNodesJson = null;
             try {
-                businessFlowNodesJson = JSON.parse(this.businessFlowNodesConfirm);
+                var businessFlowNodesConfirmStr = this.businessFlowNodesConfirm;
+                if(businessFlowNodesConfirmStr.indexOf("######") >= 0) {
+                    businessFlowNodesConfirmStr = businessFlowNodesConfirmStr.replace("/######/g", "");
+                }
+                businessFlowNodesJson = JSON.parse(businessFlowNodesConfirmStr);
             } catch(error) {
                 ElMessage.error(`非法的JSON字符串!\n` + error);
                 return;
